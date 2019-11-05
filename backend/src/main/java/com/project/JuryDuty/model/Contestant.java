@@ -1,0 +1,32 @@
+package com.project.JuryDuty.model;
+
+import java.util.Set;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
+@Data
+@Table(name="contestant")
+public class Contestant {
+	
+	@Id
+	@GeneratedValue
+	private Long id;
+
+	private int grade;
+	
+	private String pairName;
+	
+
+
+	
+}
