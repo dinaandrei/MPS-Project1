@@ -29,12 +29,13 @@ public class ContestantController {
 		this.contestantRepository = contestantRepository;
 	}
 
-	
+	//listare concurenti
 	@GetMapping("/contestants")
 	Collection<Contestant> getContestants(){
 		return contestantRepository.findAll();
 	}
 	
+	//adaugare concurent
 	@PostMapping("/contestant")
 	ResponseEntity<Contestant> addContestant(@Valid @RequestBody Contestant contestant) throws URISyntaxException{
 		
@@ -43,6 +44,8 @@ public class ContestantController {
 		return ResponseEntity.created(new URI("api/contestant" + result.getId())).body(result);
 	}
 	
+	
+	//descalificare concurent
 	@DeleteMapping("/contestant/{id}")
 	ResponseEntity<?> deleteCategory(@PathVariable Long id){
 		contestantRepository.deleteById(id);

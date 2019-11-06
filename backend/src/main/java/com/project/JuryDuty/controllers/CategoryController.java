@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.project.JuryDuty.model.Category;
 import com.project.JuryDuty.repository.CategoryRepository;
+import com.project.JuryDuty.service.RoundAndSeriesService;
 
 @RestController
 @RequestMapping("/admin")

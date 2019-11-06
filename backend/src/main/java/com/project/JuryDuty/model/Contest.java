@@ -1,0 +1,31 @@
+package com.project.JuryDuty.model;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
+@Data
+@Table(name="contest")
+public class Contest {
+	
+	@Id
+	private Long id;
+	
+	private String type;
+	
+	private int numberOfRounds;
+	
+	private int numberOfSeries;
+	
+	private int contestantsPerSeries;
+	
+	private String password;
+	
+}
