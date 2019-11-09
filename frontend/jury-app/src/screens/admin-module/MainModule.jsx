@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 
 import CreateEvent from './CreateEvent';
-import Navigation from './Navigation';
+import Navigation from '../../components/Navigation';
+import DefaultMessage from './DefaultMessage';
 
 const NAVIGATION_ITEMS = {
     CREATE: 'Create Event',
@@ -12,8 +13,10 @@ const NAVIGATION_ITEMS = {
 const MainAdminPage = () => {
     const list = [NAVIGATION_ITEMS.CREATE, NAVIGATION_ITEMS.ONGOING];
     const [selected, setSelected] = useState('Default')
+    const [ongoingEvent, setOngoingEvent] = useState(false)
 
     const handleSelect = (element) => setSelected(element);
+    const handleDefaultClick = () => setSelected(ongoingEvent? NAVIGATION_ITEMS.ONGOING : NAVIGATION_ITEMS.CREATE)
 
     const renderContent = () => {
         switch (selected){
@@ -22,7 +25,7 @@ const MainAdminPage = () => {
             case NAVIGATION_ITEMS.ONGOING:
                 return <div> ONGOING EVENT</div>
             case NAVIGATION_ITEMS.DEFAULT:
-                return <div>DEFAULT</div>
+                return <DefaultMessage ongoingEvent={ongoingEvent} handleDefaultClick={handleDefaultClick}/>
             default:
                 return <div>ERROR</div>;
         }
@@ -31,7 +34,9 @@ const MainAdminPage = () => {
     return (
         <div>
             <Navigation list={list} selected={selected} handleSelect={handleSelect} />
-            {renderContent()}
+            <div className="content">
+                {renderContent()}
+            </div>
         </div>
     );
 }

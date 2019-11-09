@@ -57,9 +57,9 @@ const ResponsiveDrawer = ({list, selected, handleSelect}) => {
       <div className={classes.toolbar} />
       <Divider />
       <List>
-        {['Create Event', 'Ongoing Event'].map((text) => (
-          <ListItem onClick={() => handleSelect(text)} button key={text}>
-            <ListItemText primary={text} />
+        {list.map((text) => (
+          <ListItem selected={text === selected} onClick={() => handleSelect(text)} button key={text}>
+            <ListItemText primary={text}/>
           </ListItem>
         ))}
       </List>

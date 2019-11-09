@@ -27,6 +27,7 @@ const Login = () => {
         <div className={"input-fields"}>
             <div>
                 <TextField
+                    className={'input--wrapper'}
                     onChange={(event) => setUser(event.target.value)}
                     id="filled-basic"
                     label="Username"
@@ -37,6 +38,7 @@ const Login = () => {
             </div>
             <div>
                 <TextField
+                    className={'input--wrapper'}
                     onChange={(event) => setPassword(event.target.value)}
                     id="filled-basic"
                     label="Password"
@@ -46,19 +48,21 @@ const Login = () => {
                     value={password}
                 />
             </div>
-            <div>
+            <div className="buttons">
                 <Button
                     onClick={sendData}
                     variant="contained"
                     color={organiserPressed ? "primary" : "secondary"}
-                    className={"main-button"}
+                    className={"login-button"}
                 >
                     {'Submit'}
                 </Button>
+            </div>
+            <div className="buttons">
                 <Button
                     onClick={setDefault}
                     variant="contained"
-                    className={"main-button"}
+                    className={"login-button"}
                 >
                     {'Cancel'}
                 </Button>
@@ -68,16 +72,22 @@ const Login = () => {
 
     const renderButtons = () => !juryPressed && !organiserPressed &&
         <>
-            <Button onClick={() => setOrganiser(!organiserPressed)} variant="contained" color="primary" className={"main-button"}>
-                {'Organiser'}
-            </Button>
-            <Button onClick={() => setJury(!juryPressed)} variant="contained" color="secondary" className={"main-button"}>
-                {'Jury'}
-            </Button>
+            <div className="title">{'What type of account do you have?'}</div>
+            <div className="buttons">
+                <Button onClick={() => setOrganiser(!organiserPressed)} variant="contained" color="primary" className={"login-button"}>
+                    {'Organiser'}
+                </Button>
+            </div>
+            <div className="buttons">
+                <Button onClick={() => setJury(!juryPressed)} variant="contained" color="secondary" className={"login-button"}>
+                    {'Jury'}
+                </Button>
+            </div>
         </>
 
     return (
         <div className="login-container">
+            <div className="main-title">{'Welcome to the Log in Page!'}</div>
             {renderButtons()}
             {renderInputs()}
         </div>
