@@ -65,6 +65,7 @@ const CreateEvent = ({ongoingEvent, setOngoingEvent}) => {
 
     return (
         <div className="create-event--wrapper">
+            <div className="title"> {'Create your Desired Event'}</div> 
             <CreateEventApi.Provider value={api}>
                 {renderContent()}
             </CreateEventApi.Provider>

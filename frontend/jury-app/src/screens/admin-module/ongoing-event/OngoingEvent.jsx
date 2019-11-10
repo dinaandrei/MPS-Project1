@@ -2,9 +2,10 @@ import React from 'react';
 import Button from '@material-ui/core/Button';
 
 const OngoingEvent = ({ list }) => {
-
+    
     const renderButtonsList = () => list.map(elem =>
         <div className={"element"} key={elem.name}>
+            <div className="second-title">{elem.name}</div>
             <div className="description">{elem.description}</div>
             <Button
                 onClick={elem.func}
@@ -12,7 +13,7 @@ const OngoingEvent = ({ list }) => {
                 color={"secondary"}
                 className="button"
             >
-                {elem.name}
+                {'Go there, pliz!'}
             </Button>
         </div>
     )

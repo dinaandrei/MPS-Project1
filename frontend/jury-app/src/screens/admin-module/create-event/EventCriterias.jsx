@@ -14,7 +14,7 @@ const EventCriterias = () => {
                 <div>
                     <TextField
                         className={'input--wrapper'}
-                        label="Team Names"
+                        label="Jury Categories"
                         multiline
                         rows="5"
                         margin="normal"
