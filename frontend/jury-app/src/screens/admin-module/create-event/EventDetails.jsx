@@ -1,40 +1,21 @@
-import React, { useState } from 'react';
+import React, {useContext} from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
-
-const CreateEvent = () => {
-    const [contestType, setContestType] = useState();
-    const [nrRounds, setNrRounds] = useState(0);
-    const [nrSets, setNrSets] = useState(0);
-    const [nrPlayers, setNrPlayers] = useState(0);
-    const [players, setPlayers] = useState("");
-    const [playersArray, setPlayersArray] = useState([]);
-    const [juryUser, setJuryUser] = useState(""); 
-    const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
-    const [errorPassword, setErrorPassword] = useState(false);
-
-    const sendData = () => {
-
-    }
-
-    const handlePlayers = (event) => {
-        const { value } = event.target;
-        const players = value.split(',');
-        console.log({ players });
-        setPlayersArray(players);
-        setPlayers(value);
-    }
-
-    const setBlur = () => password !== confirmPassword && setErrorPassword(true);
-    const setFocus = () => setErrorPassword(false);
+import {CreateEventApi} from './CreateEvent';
 
 
+const EventDetails = () => {
+    const api = useContext(CreateEventApi);
+    const {
+        contestType, setContestType, nrRounds, setNrRounds, nrSets, setNrSets,
+        nrPlayers, setNrPlayers, juryUser, setJuryUser, password, setPassword,
+        confirmPassword, setConfirmPassword, errorPassword, setBlur, setFocus, sendDetailsData} = api;
+    
     return (
-        <div className="create-event--wrapper">
+        <>
             <div className="title"> {'Create your Desired Event'}</div>
             <div className="row">
                 <InputLabel id="select-label">{'Contest Type'}</InputLabel>
@@ -82,22 +63,6 @@ const CreateEvent = () => {
                     />
                 </div>
             </div>
-            <div className="row player--wrapper">
-                <div>Team Names (Type each name followed by a comma)</div>
-                <div>
-                    <TextField
-                        className={'input--wrapper'}
-                        label="Team Names"
-                        multiline
-                        rows="2"
-                        margin="normal"
-                        variant="filled"
-                        value={players}
-                        onChange={handlePlayers}
-                    />
-                </div>
-                <div className={"error-message"}>Number of teams left: {nrPlayers - playersArray.length}</div>
-            </div>
             <div className="row password--wrapper">
                 <div>Set credentials for jurry to Log in</div>
                 <div>
@@ -138,7 +103,7 @@ const CreateEvent = () => {
             </div>
             <div>
                 <Button
-                    onClick={sendData}
+                    onClick={sendDetailsData}
                     variant="contained"
                     color={"primary"}
                     className={"main-button"}
@@ -146,8 +111,8 @@ const CreateEvent = () => {
                     {'Create Event'}
                 </Button>
             </div>
-        </div>
-    );
+        </>
+    )
 }
 
-export default CreateEvent;
+export default EventDetails;

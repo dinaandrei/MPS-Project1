@@ -7,18 +7,22 @@
 }
 
 .content {
-    width: 80%;
-    height: 88vh;
+    width: 75%;
+    height: 80vh;
     overflow-y: scroll;
     background-image: linear-gradient(to right, rgb(99, 2, 99) , rgb(33, 77, 224));
     border-radius: 5px;
-    margin-left:265px;
-    margin-top: 30px;
+    margin-left:305px;
+    margin-top: 50px;
     padding: 30px;
+    -webkit-box-shadow: 2px -4px 35px 5px rgba(0,0,0,0.75);
+    -moz-box-shadow: 2px -4px 35px 5px rgba(0,0,0,0.75);
+    box-shadow: 2px -4px 35px 5px rgba(0,0,0,0.75);
 }
 
 .input--wrapper{
-    width: 300px
+    width: 300px;
+    color: white;
 }
 
 .main-button{
@@ -71,6 +75,10 @@
     margin: auto;
     margin-bottom: 50px;
     margin-top: 150px;
+    -webkit-box-shadow: 2px -4px 35px 5px rgba(0,0,0,0.75);
+    -moz-box-shadow: 2px -4px 35px 5px rgba(0,0,0,0.75);
+    box-shadow: 2px -4px 35px 5px rgba(0,0,0,0.75);
+    color: white;
 }
 .login-container .buttons {
     margin-top: 20px;
