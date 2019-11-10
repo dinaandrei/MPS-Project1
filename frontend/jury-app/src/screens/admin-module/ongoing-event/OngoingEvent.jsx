@@ -3,7 +3,7 @@ import Button from '@material-ui/core/Button';
 
 const OngoingEvent = ({ list }) => {
 
-    const renderButtonsList = () => console.log(list) || list.map(elem =>
+    const renderButtonsList = () => list.map(elem =>
         <div className={"element"} key={elem.name}>
             <div className="description">{elem.description}</div>
             <Button
