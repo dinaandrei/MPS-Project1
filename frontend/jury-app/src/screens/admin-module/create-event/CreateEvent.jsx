@@ -5,7 +5,7 @@ import EventDetails from './EventDetails';
 
 const CreateEventApi = createContext(null);
 
-const CreateEvent = () => {
+const CreateEvent = ({ongoingEvent, setOngoingEvent}) => {
     const [contestType, setContestType] = useState();
     const [nrRounds, setNrRounds] = useState(0);
     const [nrSets, setNrSets] = useState(0);
@@ -18,12 +18,15 @@ const CreateEvent = () => {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [errorPassword, setErrorPassword] = useState(false);
+    const [detailsCreated, setDetailsCreated] = useState(!!ongoingEvent);
+    const [criteriasCreated, setCriteriasCreated] = useState(!!ongoingEvent);
+    const [playersCreated, setPlayersCreated] = useState(!!ongoingEvent);
 
-    
-    const sendDetailsData = () => { }
-    const sendCategoriesData = () => { }
-    const sendPlayersData = () => { }
-    
+
+    const sendDetailsData = () => { setDetailsCreated(true) }
+    const sendPlayersData = () => { setPlayersCreated(true) }
+    const sendCategoriesData = () => { setCriteriasCreated(true); setOngoingEvent(true) }
+
     const handlePlayers = (event) => {
         const { value } = event.target;
         const array = value.split(',');
@@ -37,11 +40,23 @@ const CreateEvent = () => {
         setCriteriasArray(array);
         setCriterias(value);
     }
-    
+
     const setBlur = () => password !== confirmPassword && setErrorPassword(true);
     const setFocus = () => setErrorPassword(false);
-    
-    const api = { contestType, setContestType, nrRounds, setNrRounds, nrSets, setNrSets,
+
+    const renderContent = () => {
+        return (
+            <>
+                {!detailsCreated && <EventDetails />}
+                {detailsCreated && !playersCreated && <EventContestants />}
+                {detailsCreated && playersCreated && !criteriasCreated && <EventCriterias />}
+            </>
+
+        )
+    }
+
+    const api = {
+        contestType, setContestType, nrRounds, setNrRounds, nrSets, setNrSets,
         nrPlayers, setNrPlayers, juryUser, setJuryUser, password, setPassword,
         confirmPassword, setConfirmPassword, errorPassword, players, playersArray, nrPlayers,
         criterias, handlePlayers, setBlur, setFocus, sendCategoriesData, sendDetailsData, handleCriterias,
@@ -51,13 +66,11 @@ const CreateEvent = () => {
     return (
         <div className="create-event--wrapper">
             <CreateEventApi.Provider value={api}>
-                <EventDetails />
-                <EventCriterias />
-                <EventContestants />
+                {renderContent()}
             </CreateEventApi.Provider>
         </div>
     );
 }
 
 export default CreateEvent;
-export {CreateEventApi}
+export { CreateEventApi }

@@ -30,9 +30,8 @@ const EventContestants = () => {
                 onClick={sendPlayersData}
                 variant="contained"
                 color={"primary"}
-                className={"main-button"}
             >
-                {'Create Event'}
+                {'Create Event Contestans'}
             </Button>
         </div>
         </>

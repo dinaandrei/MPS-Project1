@@ -29,9 +29,8 @@ const EventCriterias = () => {
                 onClick={sendCategoriesData}
                 variant="contained"
                 color={"primary"}
-                className={"main-button"}
             >
-                {'Create Event'}
+                {'Create Event Jury Criterias'}
             </Button>
         </div>
         </>

@@ -96,3 +96,35 @@
 .login-container .login-button{
     width:200px;
 }
+
+
+
+
+
+.ongoing-event--wrapper {
+    display: flex;
+    width: 100%;
+    padding-top: 30px;
+    margin: auto;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.ongoing-event--wrapper .element{
+    width: 250px;
+    height: 150px;
+    padding: 20px;
+    opacity: 0.8;
+    border-radius: 5px;
+    background-color: #ccc;
+    margin: 50px 30px;
+    position: relative;
+}
+.ongoing-event--wrapper .button{
+    margin-top: 30px;
+    position: absolute;
+    bottom:20px;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+}
