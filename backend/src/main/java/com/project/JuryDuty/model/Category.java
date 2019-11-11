@@ -22,4 +22,7 @@ public class Category {
 	
 	@NonNull
 	private String name;
+	
+	//ponderea categoriei care poate lua valori intre 0.1-1
+	private double weight;
 }

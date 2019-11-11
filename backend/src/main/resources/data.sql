@@ -1,9 +1,9 @@
 insert into contestant values(1,0,'concurent1')
 insert into contestant values(2,0,'concurent2')
 
-insert into category values(1,'Choregraphy')
-insert into category values(2,'Booty')
-insert into category values(3,'Smile')
+insert into category values(1,'Choregraphy',1)
+insert into category values(2,'Booty',1)
+insert into category values(3,'Smile',1)
 
 insert into result values(1,8,1,1)
 insert into result values(2,10,2,1)

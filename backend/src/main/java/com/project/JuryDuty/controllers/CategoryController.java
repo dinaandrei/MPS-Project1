@@ -38,9 +38,20 @@ public class CategoryController {
 		for(int i = 0; i < categoryWrapper.getNames().size(); i++) {
 			Category category = new Category();
 			category.setName(categoryWrapper.getNames().get(i));
+			category.setWeight(1);										/*la inceput setam ponderea 1 pt fiecare categorie*/
 			categoryRepository.save(category);
 		}
 
+	}
+	
+	//putem schimba ponderea unei categorii 
+	@PostMapping("/changeCategoryWeight")
+	public void changeCategoryWeight(@Valid @RequestBody Category category) {
+		Category result = categoryRepository.findByName(category.getName());
+		if(result != null) {
+			result.setWeight(category.getWeight());
+			categoryRepository.save(result);
+		}
 	}
 	
 	@DeleteMapping("/category/{id}")
