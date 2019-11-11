@@ -1,5 +1,5 @@
-insert into contestant values(1,0,'edi')
-insert into contestant values(2,0,'calinus')
+insert into contestant values(1,0,'concurent1')
+insert into contestant values(2,0,'concurent2')
 
 insert into category values(1,'Choregraphy')
 insert into category values(2,'Booty')

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.JuryDuty.model.Contestant;
+import com.project.JuryDuty.pojos.ContestantWrapper;
 import com.project.JuryDuty.repository.ContestantRepository;
 
 @RestController
@@ -38,12 +39,12 @@ public class ContestantController {
 	
 	//adaugare concurenti
 	@PostMapping("/contestant")
-	public void addContestant(@Valid @RequestBody List<String> contestantList){
+	public void addContestant(@Valid @RequestBody ContestantWrapper contestantWrapper){
 		
-		for(int i = 0; i < contestantList.size(); i++) {
+		for(int i = 0; i < contestantWrapper.getPairNames().size(); i++) {
 			Contestant contestant = new Contestant();
 			contestant.setGrade(0);
-			contestant.setPairName(contestantList.get(i));
+			contestant.setPairName(contestantWrapper.getPairNames().get(i));
 			
 			contestantRepository.save(contestant);
 		}

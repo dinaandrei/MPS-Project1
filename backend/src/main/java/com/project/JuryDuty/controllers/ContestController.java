@@ -62,7 +62,7 @@ public class ContestController {
 	public void endSeries() {
 		roundAndSeriesService.setSeriesStarted(false);
 		
-		//TODO: CALCULAREA NOTELOR PER CONCURENT
+		//TODO: CALCULAREA NOTELOR PER CONCURENT si inserarea rez in grade din tabela contestant
 	}
 	
 }

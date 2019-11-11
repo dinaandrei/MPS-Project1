@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.project.JuryDuty.model.Category;
+import com.project.JuryDuty.pojos.CategoryWrapper;
 import com.project.JuryDuty.repository.CategoryRepository;
 import com.project.JuryDuty.service.RoundAndSeriesService;
 
@@ -33,10 +34,10 @@ public class CategoryController {
 	}
 	
 	@PostMapping("/category")
-	public void addCategory(@RequestBody List<String> categoryList ){
-		for(int i = 0; i < categoryList.size(); i++) {
+	public void addCategory(@Valid @RequestBody CategoryWrapper categoryWrapper ){
+		for(int i = 0; i < categoryWrapper.getNames().size(); i++) {
 			Category category = new Category();
-			category.setName(categoryList.get(i));
+			category.setName(categoryWrapper.getNames().get(i));
 			categoryRepository.save(category);
 		}
 
