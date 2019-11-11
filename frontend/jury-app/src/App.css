@@ -1,0 +1,130 @@
+
+.App {
+  text-align: center;
+  height: 100vh;
+  position:relative;
+  /* background-image: url("background.png"); */
+}
+
+.content {
+    width: 75%;
+    height: 80vh;
+    overflow-y: scroll;
+    background-image: linear-gradient(to right, rgb(99, 2, 99) , rgb(33, 77, 224));
+    border-radius: 5px;
+    margin-left:305px;
+    margin-top: 50px;
+    padding: 30px;
+    -webkit-box-shadow: 2px -4px 35px 5px rgba(0,0,0,0.75);
+    -moz-box-shadow: 2px -4px 35px 5px rgba(0,0,0,0.75);
+    box-shadow: 2px -4px 35px 5px rgba(0,0,0,0.75);
+}
+
+.input--wrapper{
+    width: 300px;
+    color: white;
+}
+
+.main-button{
+    width: 150px;
+}
+
+.default-message {
+    margin-top: 100px;
+}
+.default-message .title{
+    font-size: 30px;
+    color: white;
+}
+
+.create-event--wrapper {
+    padding: 50px;
+}
+
+.title {
+    font-weight: 500;
+    font-size: 22px;
+    margin-bottom: 50px;
+    color: white;
+}
+
+.create-event--wrapper .row {
+    padding: 20px;
+    opacity: 0.8;
+    border-radius: 5px;
+    width: 400px;
+    background-color: #ccc;
+    margin: auto;
+    margin-bottom: 50px;
+}
+
+.error-message {
+    color: rgb(143, 3, 3);
+}
+
+
+
+
+
+.login-container {
+    padding: 80px 20px;
+    height: 350px;
+    border-radius: 5px;
+    width: 400px;
+    background-image: linear-gradient(to right, rgb(99, 2, 99) , rgb(33, 77, 224));
+    margin: auto;
+    margin-bottom: 50px;
+    margin-top: 150px;
+    -webkit-box-shadow: 2px -4px 35px 5px rgba(0,0,0,0.75);
+    -moz-box-shadow: 2px -4px 35px 5px rgba(0,0,0,0.75);
+    box-shadow: 2px -4px 35px 5px rgba(0,0,0,0.75);
+    color: white;
+}
+.login-container .buttons {
+    margin-top: 20px;
+}
+.login-container .main-title{
+    font-size: 30px;
+    margin-bottom:10px;
+    color: white;
+}
+.login-container .title{
+    font-size: 20px;
+    color: white;
+
+}
+.login-container .login-button{
+    width:200px;
+}
+
+
+
+
+
+.ongoing-event--wrapper {
+    display: flex;
+    width: 100%;
+    padding-top: 30px;
+    margin: auto;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.ongoing-event--wrapper .element{
+    width: 250px;
+    height: 150px;
+    padding: 20px;
+    opacity: 0.8;
+    border-radius: 5px;
+    background-color: #ccc;
+    margin: 50px 30px;
+    position: relative;
+}
+.ongoing-event--wrapper .button{
+    margin-top: 30px;
+    position: absolute;
+    bottom:20px;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+}
