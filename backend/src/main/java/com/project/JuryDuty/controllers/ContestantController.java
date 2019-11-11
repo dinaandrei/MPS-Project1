@@ -38,7 +38,7 @@ public class ContestantController {
 	
 	//adaugare concurenti
 	@PostMapping("/contestant")
-	public void addContestant(@Valid @RequestBody List<String> contestantList){
+	public void addContestant(@RequestBody List<String> contestantList){
 		
 		for(int i = 0; i < contestantList.size(); i++) {
 			Contestant contestant = new Contestant();
