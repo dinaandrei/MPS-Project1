@@ -3,6 +3,7 @@ package com.project.JuryDuty.controllers;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Collection;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -29,20 +30,27 @@ public class ContestantController {
 		this.contestantRepository = contestantRepository;
 	}
 
-	
+	//listare concurenti
 	@GetMapping("/contestants")
 	Collection<Contestant> getContestants(){
 		return contestantRepository.findAll();
 	}
 	
+	//adaugare concurenti
 	@PostMapping("/contestant")
-	ResponseEntity<Contestant> addContestant(@Valid @RequestBody Contestant contestant) throws URISyntaxException{
+	public void addContestant(@RequestBody List<String> contestantList){
 		
-		Contestant result = contestantRepository.save(contestant);
-		
-		return ResponseEntity.created(new URI("api/contestant" + result.getId())).body(result);
+		for(int i = 0; i < contestantList.size(); i++) {
+			Contestant contestant = new Contestant();
+			contestant.setGrade(0);
+			contestant.setPairName(contestantList.get(i));
+			
+			contestantRepository.save(contestant);
+		}
 	}
 	
+	
+	//descalificare concurent
 	@DeleteMapping("/contestant/{id}")
 	ResponseEntity<?> deleteCategory(@PathVariable Long id){
 		contestantRepository.deleteById(id);

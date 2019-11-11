@@ -6,20 +6,31 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 
-@Entity
+@AllArgsConstructor
 @NoArgsConstructor
+@Entity
 @Data
-@Table(name="category")
-public class Category {
+@Table(name="contest")
+public class Contest {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@NonNull
-	private String name;
+	private String type;
+	
+	private int numberOfRounds;
+	
+	private int numberOfSeries;
+	
+	private int contestantsPerSeries;
+	
+	private String username;
+	
+	private String password;
+	
 }

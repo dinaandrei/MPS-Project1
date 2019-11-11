@@ -3,6 +3,7 @@ package com.project.JuryDuty.controllers;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Collection;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -15,8 +16,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.project.JuryDuty.model.Category;
 import com.project.JuryDuty.repository.CategoryRepository;
+import com.project.JuryDuty.service.RoundAndSeriesService;
 
 @RestController
 @RequestMapping("/admin")
@@ -31,11 +34,13 @@ public class CategoryController {
 	}
 	
 	@PostMapping("/category")
-	ResponseEntity<Category> addCategory(@Valid @RequestBody Category category) throws URISyntaxException{
-		
-		Category result = categoryRepository.save(category);
-		
-		return ResponseEntity.created(new URI("/admin/category" + result.getId())).body(result);
+	public void addCategory(@RequestBody List<String> categoryList ){
+		for(int i = 0; i < categoryList.size(); i++) {
+			Category category = new Category();
+			category.setName(categoryList.get(i));
+			categoryRepository.save(category);
+		}
+
 	}
 	
 	@DeleteMapping("/category/{id}")
@@ -46,3 +51,5 @@ public class CategoryController {
 		return ResponseEntity.ok().build();
 	}
 }
+
+
