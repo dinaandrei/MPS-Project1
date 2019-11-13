@@ -33,6 +33,10 @@ public class CategoryController {
 		return categoryRepository.findAll();
 	}
 	
+//	long getNumberCategories(){
+//		return categoryRepository.count();
+//	}
+	
 	@PostMapping("/category")
 	public void addCategory(@Valid @RequestBody CategoryWrapper categoryWrapper ){
 		for(int i = 0; i < categoryWrapper.getNames().size(); i++) {

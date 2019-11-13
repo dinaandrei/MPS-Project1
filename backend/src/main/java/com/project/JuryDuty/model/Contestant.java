@@ -23,7 +23,7 @@ public class Contestant {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	private int grade;
+	private double grade;
 	
 	private String pairName;
 	

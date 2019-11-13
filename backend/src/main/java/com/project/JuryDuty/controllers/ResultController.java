@@ -44,6 +44,7 @@ public class ResultController {
 	@PostMapping("/vote")
 	public void voteContestant(@Valid @RequestBody Vote vote) {
 		voteService.voteContestant(vote);
+		
 	}
 	
 	

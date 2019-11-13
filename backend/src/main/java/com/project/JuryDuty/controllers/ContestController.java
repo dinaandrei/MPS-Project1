@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.project.JuryDuty.model.Contest;
 import com.project.JuryDuty.repository.ContestRepository;
 import com.project.JuryDuty.service.RoundAndSeriesService;
+import com.project.JuryDuty.service.VoteService;
 
 @RestController
 @RequestMapping("/admin")
@@ -27,6 +28,9 @@ public class ContestController {
 	
 	@Autowired
 	private RoundAndSeriesService roundAndSeriesService;
+	
+	@Autowired
+	private VoteService voteService;
 	
 	@GetMapping("/contestData")
 	Collection<Contest> getContestData() {
@@ -61,8 +65,9 @@ public class ContestController {
 	@PostMapping("/endSeries")
 	public void endSeries() {
 		roundAndSeriesService.setSeriesStarted(false);
-		
+		voteService.endSeries();
 		//TODO: CALCULAREA NOTELOR PER CONCURENT si inserarea rez in grade din tabela contestant
+		
 	}
 	
 }
