@@ -33,4 +33,6 @@ public class Contest {
 	
 	private String password;
 	
+	private int minGrade = 5;
+	
 }

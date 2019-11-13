@@ -56,7 +56,7 @@ public class VoteService {
 
 	public void endSeries() {
 		
-		int juryNumber = Vote.counter / (int)categoryRepository.count() / (int)contestantRepository.count();
+		int juryNumber = 3;//Vote.counter / (int)categoryRepository.count() / (int)contestantRepository.count();
 		System.out.println("jury num: " + juryNumber);
 		
 		for(Contestant contestant : contestantRepository.findAll()) {
@@ -80,5 +80,19 @@ public class VoteService {
 		
 	}
 	
+	public void endRound() {
+		
+		for (Contestant contestant : contestantRepository.findAll()) {
+			if(contestant.getGrade() < 5) {
+				for(Result result : resultRepository.findAll()) {
+					if(result.getContestant().getPairName() == contestant.getPairName()) {
+						resultRepository.delete(result);
+					}
+				}
+								
+				contestantRepository.delete(contestant);		
+			}
+		}
+	}
 
 }

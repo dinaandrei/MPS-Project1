@@ -26,8 +26,5 @@ public class Contestant {
 	private double grade;
 	
 	private String pairName;
-	
-
-
-	
+		
 }
