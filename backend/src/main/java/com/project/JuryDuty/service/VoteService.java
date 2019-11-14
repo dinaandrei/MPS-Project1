@@ -77,7 +77,8 @@ public class VoteService {
 			contestantRepository.save(contestant);
 			
 		}
-		
+		resultRepository.deleteAll();
+		System.out.println(resultRepository.count());
 	}
 	
 	public void endRound() {
