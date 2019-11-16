@@ -20,4 +20,14 @@ const getData = async (url = '') => {
     return await response.json();
 }
 
-export {postData, getData};
+const deleteData = async (url = '') => {
+    const response = await fetch(url, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    })
+    return await response.json();
+}
+
+export {postData, getData, deleteData};
