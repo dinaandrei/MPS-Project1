@@ -53,7 +53,10 @@ const MainAdminPage = () => {
     }))
 
     useEffect(() => {
-        getData(routes.getContest).then(res => console.log({res}));
+        getData(routes.getContest).then(res => {
+            console.log({res})
+            setOngoingEvent(res.length > 0);
+        });
     }, [])
 
     const startEvent = () => {
