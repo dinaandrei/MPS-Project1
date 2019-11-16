@@ -1,7 +1,9 @@
-import React, { useState, createContext } from 'react';
+import React, { useState, createContext, useEffect } from 'react';
 import EventContestants from './EventContestants';
 import EventCriterias from './EventCriterias';
 import EventDetails from './EventDetails';
+import {routes} from '../../../utils/backendRoutes';
+import {postData} from '../../../utils/fetches'
 
 const CreateEventApi = createContext(null);
 
@@ -22,10 +24,32 @@ const CreateEvent = ({ongoingEvent, setOngoingEvent}) => {
     const [criteriasCreated, setCriteriasCreated] = useState(!!ongoingEvent);
     const [playersCreated, setPlayersCreated] = useState(!!ongoingEvent);
 
-
-    const sendDetailsData = () => { setDetailsCreated(true) }
-    const sendPlayersData = () => { setPlayersCreated(true) }
-    const sendCategoriesData = () => { setCriteriasCreated(true); setOngoingEvent(true) }
+    const sendDetailsData = () => { 
+        setDetailsCreated(true);
+        const body = {
+            type: contestType,
+            numberOfRounds: nrRounds,
+            numberOfSeries: nrSets,
+            contestantsPerSeries: nrPlayers,
+            username: juryUser,
+            password: password,
+        }
+        postData(routes.postContest, body).then(event => console.log({event}));
+    }
+    const sendPlayersData = () => { 
+        setPlayersCreated(true) 
+        const body = {
+            pairNames:playersArray
+        }
+        postData(routes.postContestants, body).then(event => console.log({event}));;
+    }
+    const sendCategoriesData = () => { 
+        setCriteriasCreated(true); setOngoingEvent(true)
+        const body = {
+            names: criteriasArray
+        }
+        postData(routes.postCategories, body).then(event => console.log({event}));;
+    }
 
     const handlePlayers = (event) => {
         const { value } = event.target;
@@ -65,6 +89,7 @@ const CreateEvent = ({ongoingEvent, setOngoingEvent}) => {
 
     return (
         <div className="create-event--wrapper">
+            <div className="title"> {'Create your Desired Event'}</div> 
             <CreateEventApi.Provider value={api}>
                 {renderContent()}
             </CreateEventApi.Provider>

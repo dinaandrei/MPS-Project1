@@ -121,8 +121,7 @@ const EventDetails = () => {
     )
 
     return (
-        <>
-            <div className="title"> {'Create your Desired Event'}</div>    
+        <>   
                 {renderContestType()}
                 {renderRounds()}
                 {renderJuryAccount()}

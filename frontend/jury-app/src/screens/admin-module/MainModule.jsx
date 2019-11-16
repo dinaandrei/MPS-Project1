@@ -1,9 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import CreateEvent from './create-event/CreateEvent';
 import Navigation from '../../components/Navigation';
 import DefaultMessage from './DefaultMessage';
-import OngoingEvent from './ongoing-event';
+import {routes} from '../../utils/backendRoutes';
+import {getData} from '../../utils/fetches'
+import 
+OngoingEvent, 
+{
+    DeleteRounds,
+    CurrentRounds,
+    DisqualifyTeams,
+    JuryCriterias,
+} from './ongoing-event';
 
 const NAVIGATION_ITEMS = {
     CREATE: 'Create Event',
@@ -32,6 +41,7 @@ NAVIGATION_ITEMS_LIST.pop();
 const MainAdminPage = () => {
     const [selected, setSelected] = useState('Default')
     const [ongoingEvent, setOngoingEvent] = useState(false)
+    const [eventStarted, setStartedEvent] = useState(false);
 
     const handleSelect = (element) => setSelected(element);
     const handleDefaultClick = () => setSelected(ongoingEvent ? NAVIGATION_ITEMS.ONGOING : NAVIGATION_ITEMS.CREATE)
@@ -41,6 +51,26 @@ const MainAdminPage = () => {
         func: () => handleSelect(x),
         description: DESCRIPTIONS[index],
     }))
+
+    useEffect(() => {
+        getData(routes.getContest).then(res => console.log({res}));
+    }, [])
+
+    const startEvent = () => {
+        setStartedEvent(true);
+    }
+
+    const deleteRound = (index) => {
+        // delete round with index
+    }
+
+    const disqualifyTeam = (team) => {
+        //delete team
+    }
+
+    const submitCriteriasList = (criterias) => {
+        // post criterias
+    }
 
     const renderContent = () => {
         switch (selected) {
@@ -53,13 +83,13 @@ const MainAdminPage = () => {
                     return <OngoingEvent list={ongoingList} />
                 return <DefaultMessage ongoingEvent={ongoingEvent} handleDefaultClick={handleDefaultClick} />;
             case NAVIGATION_ITEMS.CURRENT_ROUND:
-                return <div>asdasdas</div>
+                return <CurrentRounds eventStarted={eventStarted} oundsNumber={10} currentRound={2} startEvent={startEvent}/>
             case NAVIGATION_ITEMS.DELETE_ROUND:
-                return <div> delete round</div>
+                return <DeleteRounds deleteRound={deleteRound} roundsNumber={10} currentRound={2}/>
             case NAVIGATION_ITEMS.DELETE_TEAM:
-                return <div> delete team</div>
+                return <DisqualifyTeams teamsList={["abla","bla"]} disqualifyTeam={disqualifyTeam}/>
             case NAVIGATION_ITEMS.CHANGE_DEFAULT_VALUES:
-                return <div> change default values</div>
+                return <JuryCriterias criteriasList={["criteriu1", "al doilea", "sase"]} setCriteriasList={submitCriteriasList}/>
             case NAVIGATION_ITEMS.SPECIAL_ROUNDS:
                 return <div> special rounds</div>
             case NAVIGATION_ITEMS.DEFAULT:
