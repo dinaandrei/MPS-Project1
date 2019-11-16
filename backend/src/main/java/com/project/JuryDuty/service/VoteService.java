@@ -6,10 +6,12 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import com.project.JuryDuty.model.Category;
+import com.project.JuryDuty.model.Contest;
 import com.project.JuryDuty.model.Contestant;
 import com.project.JuryDuty.model.Result;
 import com.project.JuryDuty.pojos.Vote;
 import com.project.JuryDuty.repository.CategoryRepository;
+import com.project.JuryDuty.repository.ContestRepository;
 import com.project.JuryDuty.repository.ContestantRepository;
 import com.project.JuryDuty.repository.ResultRepository;
 
@@ -29,6 +31,10 @@ public class VoteService {
 	
 	@Autowired
 	private ResultRepository resultRepository;
+	
+	@Autowired
+	private ContestRepository contestRepository;
+	
 	
 	public void voteContestant(Vote vote) {
 		Vote.counter++;
@@ -83,8 +89,12 @@ public class VoteService {
 	
 	public void endRound() {
 		
+//		ssy
+//		
 		for (Contestant contestant : contestantRepository.findAll()) {
-			if(contestant.getGrade() < 5) {
+//			if(contestant)
+			
+			if(contestant.getGrade() < contestRepository.findAll().get(0).getMinGrade()) {
 				for(Result result : resultRepository.findAll()) {
 					if(result.getContestant().getPairName() == contestant.getPairName()) {
 						resultRepository.delete(result);
