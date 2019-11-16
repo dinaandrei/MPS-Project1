@@ -1,7 +1,9 @@
-import React, { useState, createContext } from 'react';
+import React, { useState, createContext, useEffect } from 'react';
 import EventContestants from './EventContestants';
 import EventCriterias from './EventCriterias';
 import EventDetails from './EventDetails';
+import {routes} from '../../../utils/backendRoutes';
+import {postData} from '../../../utils/fetches'
 
 const CreateEventApi = createContext(null);
 
@@ -22,10 +24,35 @@ const CreateEvent = ({ongoingEvent, setOngoingEvent}) => {
     const [criteriasCreated, setCriteriasCreated] = useState(!!ongoingEvent);
     const [playersCreated, setPlayersCreated] = useState(!!ongoingEvent);
 
-
-    const sendDetailsData = () => { setDetailsCreated(true) }
-    const sendPlayersData = () => { setPlayersCreated(true) }
-    const sendCategoriesData = () => { setCriteriasCreated(true); setOngoingEvent(true) }
+    const sendDetailsData = () => { 
+        setDetailsCreated(true);
+        const body = {
+            type: contestType,
+            numberOfRounds: nrRounds,
+            numberOfSeries: nrSets,
+            contestantsPerSeries: nrPlayers,
+            username: juryUser,
+            password: password,
+        }
+        const something = postData(routes.postContest, body);
+        console.log({something});
+    }
+    const sendPlayersData = () => { 
+        setPlayersCreated(true) 
+        const body = {
+            pairNames:playersArray
+        }
+        const something = postData(routes.postContestants, body);
+        console.log({something});
+    }
+    const sendCategoriesData = () => { 
+        setCriteriasCreated(true); setOngoingEvent(true)
+        const body = {
+            names: criteriasArray
+        }
+        const something = postData(routes.postCategories, body);
+        console.log({something});
+    }
 
     const handlePlayers = (event) => {
         const { value } = event.target;

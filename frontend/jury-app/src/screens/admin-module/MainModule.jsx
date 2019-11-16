@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import CreateEvent from './create-event/CreateEvent';
 import Navigation from '../../components/Navigation';
 import DefaultMessage from './DefaultMessage';
+import {routes} from '../../utils/backendRoutes';
+import {getData} from '../../utils/fetches'
 import 
 OngoingEvent, 
 {
@@ -49,6 +51,11 @@ const MainAdminPage = () => {
         func: () => handleSelect(x),
         description: DESCRIPTIONS[index],
     }))
+
+    useEffect(() => {
+        const result = getData(routes.getContest);
+        console.log({result});
+    }, [])
 
     const startEvent = () => {
         setStartedEvent(true);

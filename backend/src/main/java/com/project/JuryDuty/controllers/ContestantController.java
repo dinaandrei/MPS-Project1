@@ -4,6 +4,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Collection;
 import java.util.List;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import javax.validation.Valid;
 
@@ -32,12 +33,14 @@ public class ContestantController {
 	}
 
 	//listare concurenti
+	@CrossOrigin(origins = "http://localhost:3000")
 	@GetMapping("/contestants")
 	Collection<Contestant> getContestants(){
 		return contestantRepository.findAll();
 	}
 	
 	//adaugare concurenti
+	@CrossOrigin(origins = "http://localhost:3000")
 	@PostMapping("/contestant")
 	public void addContestant(@Valid @RequestBody ContestantWrapper contestantWrapper){
 		
@@ -52,6 +55,7 @@ public class ContestantController {
 	
 	
 	//descalificare concurent
+	@CrossOrigin(origins = "http://localhost:3000")
 	@DeleteMapping("/contestant/{id}")
 	ResponseEntity<?> deleteCategory(@PathVariable Long id){
 		contestantRepository.deleteById(id);
