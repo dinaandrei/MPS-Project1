@@ -42,7 +42,7 @@ public class ContestantController {
 	//adaugare concurenti
 	@CrossOrigin(origins = "http://localhost:3000")
 	@PostMapping("/contestant")
-	public void addContestant(@Valid @RequestBody ContestantWrapper contestantWrapper){
+	public Collection<Contestant> addContestant(@Valid @RequestBody ContestantWrapper contestantWrapper){
 		
 		for(int i = 0; i < contestantWrapper.getPairNames().size(); i++) {
 			Contestant contestant = new Contestant();
@@ -51,6 +51,8 @@ public class ContestantController {
 			
 			contestantRepository.save(contestant);
 		}
+
+		return contestantRepository.findAll();
 	}
 	
 	

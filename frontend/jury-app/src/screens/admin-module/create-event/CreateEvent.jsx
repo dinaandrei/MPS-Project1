@@ -34,24 +34,21 @@ const CreateEvent = ({ongoingEvent, setOngoingEvent}) => {
             username: juryUser,
             password: password,
         }
-        const something = postData(routes.postContest, body);
-        console.log({something});
+        postData(routes.postContest, body).then(event => console.log({event}));
     }
     const sendPlayersData = () => { 
         setPlayersCreated(true) 
         const body = {
             pairNames:playersArray
         }
-        const something = postData(routes.postContestants, body);
-        console.log({something});
+        postData(routes.postContestants, body).then(event => console.log({event}));;
     }
     const sendCategoriesData = () => { 
         setCriteriasCreated(true); setOngoingEvent(true)
         const body = {
             names: criteriasArray
         }
-        const something = postData(routes.postCategories, body);
-        console.log({something});
+        postData(routes.postCategories, body).then(event => console.log({event}));;
     }
 
     const handlePlayers = (event) => {

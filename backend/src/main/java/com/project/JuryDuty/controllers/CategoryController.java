@@ -34,14 +34,14 @@ public class CategoryController {
 	
 	@PostMapping("/category")
 	@CrossOrigin(origins = "http://localhost:3000")
-	public void addCategory(@Valid @RequestBody CategoryWrapper categoryWrapper ){
+	Collection<Category> addCategory(@Valid @RequestBody CategoryWrapper categoryWrapper ){
 		for(int i = 0; i < categoryWrapper.getNames().size(); i++) {
 			Category category = new Category();
 			category.setName(categoryWrapper.getNames().get(i));
 			category.setWeight(1);										/*la inceput setam ponderea 1 pt fiecare categorie*/
 			categoryRepository.save(category);
 		}
-
+		return categoryRepository.findAll();
 	}
 	
 	//putem schimba ponderea unei categorii 

@@ -53,8 +53,7 @@ const MainAdminPage = () => {
     }))
 
     useEffect(() => {
-        const result = getData(routes.getContest);
-        console.log({result});
+        getData(routes.getContest).then(res => console.log({res}));
     }, [])
 
     const startEvent = () => {
