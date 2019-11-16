@@ -1,7 +1,5 @@
 package com.project.JuryDuty.model;
 
-import java.util.Set;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,18 +14,23 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Data
-@Table(name="contestant")
-public class Contestant {
+@Table(name="contest")
+public class Contest {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
-	private double grade;
 	
-	private String pairName;
+	private String type;
 	
-
-
+	private int numberOfRounds;
+	
+	private int numberOfSeries;
+	
+	private int contestantsPerSeries;
+	
+	private String username;
+	
+	private String password;
 	
 }

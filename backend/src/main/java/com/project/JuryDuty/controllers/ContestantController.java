@@ -3,6 +3,7 @@ package com.project.JuryDuty.controllers;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Collection;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.JuryDuty.model.Contestant;
+import com.project.JuryDuty.pojos.ContestantWrapper;
 import com.project.JuryDuty.repository.ContestantRepository;
 
 @RestController
@@ -29,20 +31,27 @@ public class ContestantController {
 		this.contestantRepository = contestantRepository;
 	}
 
-	
+	//listare concurenti
 	@GetMapping("/contestants")
 	Collection<Contestant> getContestants(){
 		return contestantRepository.findAll();
 	}
 	
+	//adaugare concurenti
 	@PostMapping("/contestant")
-	ResponseEntity<Contestant> addContestant(@Valid @RequestBody Contestant contestant) throws URISyntaxException{
+	public void addContestant(@Valid @RequestBody ContestantWrapper contestantWrapper){
 		
-		Contestant result = contestantRepository.save(contestant);
-		
-		return ResponseEntity.created(new URI("api/contestant" + result.getId())).body(result);
+		for(int i = 0; i < contestantWrapper.getPairNames().size(); i++) {
+			Contestant contestant = new Contestant();
+			contestant.setGrade(0);
+			contestant.setPairName(contestantWrapper.getPairNames().get(i));
+			
+			contestantRepository.save(contestant);
+		}
 	}
 	
+	
+	//descalificare concurent
 	@DeleteMapping("/contestant/{id}")
 	ResponseEntity<?> deleteCategory(@PathVariable Long id){
 		contestantRepository.deleteById(id);

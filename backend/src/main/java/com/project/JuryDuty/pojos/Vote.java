@@ -17,4 +17,6 @@ public class Vote {
 	private String contestantName;
 	
 	private String category;
+	
+	public static int counter = 0;
 }

@@ -3,6 +3,7 @@ package com.project.JuryDuty.controllers;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Collection;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -16,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.project.JuryDuty.model.Category;
+import com.project.JuryDuty.pojos.CategoryWrapper;
 import com.project.JuryDuty.repository.CategoryRepository;
+import com.project.JuryDuty.service.RoundAndSeriesService;
 
 @RestController
 @RequestMapping("/admin")
@@ -30,12 +33,29 @@ public class CategoryController {
 		return categoryRepository.findAll();
 	}
 	
+//	long getNumberCategories(){
+//		return categoryRepository.count();
+//	}
+	
 	@PostMapping("/category")
-	ResponseEntity<Category> addCategory(@Valid @RequestBody Category category) throws URISyntaxException{
-		
-		Category result = categoryRepository.save(category);
-		
-		return ResponseEntity.created(new URI("/admin/category" + result.getId())).body(result);
+	public void addCategory(@Valid @RequestBody CategoryWrapper categoryWrapper ){
+		for(int i = 0; i < categoryWrapper.getNames().size(); i++) {
+			Category category = new Category();
+			category.setName(categoryWrapper.getNames().get(i));
+			category.setWeight(1);										/*la inceput setam ponderea 1 pt fiecare categorie*/
+			categoryRepository.save(category);
+		}
+
+	}
+	
+	//putem schimba ponderea unei categorii 
+	@PostMapping("/changeCategoryWeight")
+	public void changeCategoryWeight(@Valid @RequestBody Category category) {
+		Category result = categoryRepository.findByName(category.getName());
+		if(result != null) {
+			result.setWeight(category.getWeight());
+			categoryRepository.save(result);
+		}
 	}
 	
 	@DeleteMapping("/category/{id}")
@@ -46,3 +66,5 @@ public class CategoryController {
 		return ResponseEntity.ok().build();
 	}
 }
+
+
