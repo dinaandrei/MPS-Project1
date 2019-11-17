@@ -3,24 +3,16 @@ package com.project.JuryDuty.controllers;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Collection;
-import org.springframework.web.bind.annotation.CrossOrigin;
+
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.project.JuryDuty.model.JuryAccount;
-import com.project.JuryDuty.model.JuryAccount;
 import com.project.JuryDuty.repository.JuryAccountRepository;
-import com.project.JuryDuty.repository.JuryAccountRepository;
-import com.project.JuryDuty.service.RoundAndSeriesService;
-import com.project.JuryDuty.service.VoteService;
 
 @RestController
 @RequestMapping("/admin")
@@ -43,5 +35,11 @@ public class JuryAccountController {
 		
 		return ResponseEntity.created(new URI("/admin/addJuryAccount" + result.getId())).body(result);
 	}
-	
+
+	@DeleteMapping("/juryAccount/{id}")
+	ResponseEntity<?> deleteJuryAccount(@PathVariable Long id){
+
+		juryAccountRepository.deleteById(id);
+		return ResponseEntity.ok().build();
+	}
 }
