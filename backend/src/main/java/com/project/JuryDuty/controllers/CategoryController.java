@@ -32,14 +32,8 @@ public class CategoryController {
 //		return categoryRepository.count();
 //	}
 	
-<<<<<<< HEAD
 	@RequestMapping("/category")
 	public Collection<Category> addCategory(@Valid @RequestBody CategoryWrapper categoryWrapper ){
-=======
-	@PostMapping("/category")
-	@CrossOrigin(origins = "http://localhost:3000")
-	Collection<Category> addCategory(@Valid @RequestBody CategoryWrapper categoryWrapper ){
->>>>>>> d5e4dd2711079d286f14d65f0be2167177f8e53d
 		for(int i = 0; i < categoryWrapper.getNames().size(); i++) {
 			Category category = new Category();
 			category.setName(categoryWrapper.getNames().get(i));
@@ -53,6 +47,7 @@ public class CategoryController {
 	@PostMapping("/changeCategoryWeight")
 	@CrossOrigin(origins = "http://localhost:3000")
 	public void changeCategoryWeight(@Valid @RequestBody Category category) {
+		
 		Category result = categoryRepository.findByName(category.getName());
 		if(result != null) {
 			result.setWeight(category.getWeight());
