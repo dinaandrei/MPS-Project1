@@ -71,17 +71,22 @@ const MainAdminPage = () => {
 
     const disqualifyTeam = (team) => {
         deleteData(routes.deleteTeam(team))
-        .then(res => {
-            console.log({ res })
-            setOngoingEvent(res.length > 0);
-        })
         .then(() => {
+            // if(res.status/100 === 2)
             getTeams();
         })
     }
 
-    const submitCriteriasList = (criterias) => {
+    const submitCriteria = (criterias) => {
         // post criterias
+    }
+
+    const deleteCriteria = (criteriaId) => {
+        deleteData(routes.deleteCriteria(criteriaId))
+        .then(() => {
+            // if(res.status/100 === 2)
+            getCriterias();
+        })
     }
 
     const getOngoingEvent = () => {
@@ -156,7 +161,8 @@ const MainAdminPage = () => {
                 return <JuryCriterias
                     getCriterias={getCriterias}
                     criteriasList={criterias}
-                    setCriteriasList={submitCriteriasList}
+                    setCriteria={submitCriteria}
+                    deleteCriteria={deleteCriteria}
                 />
             case NAVIGATION_ITEMS.SPECIAL_ROUNDS:
                 return <div> special rounds</div>

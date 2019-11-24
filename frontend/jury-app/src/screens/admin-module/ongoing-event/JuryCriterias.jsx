@@ -1,13 +1,17 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Button from '@material-ui/core/Button';
 
-const JuryCriterias = ({ criteriasList, setCriteriasList }) => {
+const JuryCriterias = ({ criteriasList, setCriteria, deleteCriteria, getCriterias}) => {
+
+    useEffect(() => {
+        getCriterias();
+    }, []);
 
     const renderTeams = () => criteriasList.map(criteria =>
-        <div className="element element-two-buttons">
-            <div className="title">{criteria}</div>
+        <div key={`${criteria.name}--criteria`} className="element element-two-buttons">
+            <div className="title">{criteria.name}</div>
             <Button
-                // onClick={disqualifyTeam}
+                // onClick={setCriteria}
                 variant="contained"
                 color={"secondary"}
                 className="button top-button"
@@ -15,7 +19,7 @@ const JuryCriterias = ({ criteriasList, setCriteriasList }) => {
                 {'Edit'}
             </Button>
             <Button
-                // onClick={disqualifyTeam}
+                onClick={() => deleteCriteria(criteria.id)}
                 variant="contained"
                 color={"primary"}
                 className="button"
@@ -30,16 +34,6 @@ const JuryCriterias = ({ criteriasList, setCriteriasList }) => {
             <div className="title">{'Teams that are still in the "Game"'}</div>
             <div className="ongoing-event--wrapper">
                 {renderTeams()}
-            </div>
-            <div>
-                <Button
-                    onClick={setCriteriasList}
-                    variant="contained"
-                    color={"secondary"}
-                    className="button"
-                >
-                    {'Submit new Criterias'}
-                </Button>
             </div>
         </div>
     )

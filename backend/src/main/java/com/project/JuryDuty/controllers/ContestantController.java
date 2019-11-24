@@ -60,6 +60,7 @@ public class ContestantController {
 	@CrossOrigin(origins = "http://localhost:3000")
 	@DeleteMapping("/contestant/{id}")
 	ResponseEntity<?> deleteCategory(@PathVariable Long id){
+
 		contestantRepository.deleteById(id);
 		return ResponseEntity.ok().build();
 	}
