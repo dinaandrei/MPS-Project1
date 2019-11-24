@@ -1,6 +1,9 @@
 package com.project.JuryDuty.service;
 
 import java.util.List;
+
+import com.project.JuryDuty.repository.*;
+import net.bytebuddy.implementation.auxiliary.AuxiliaryType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -10,10 +13,6 @@ import com.project.JuryDuty.model.Contest;
 import com.project.JuryDuty.model.Contestant;
 import com.project.JuryDuty.model.Result;
 import com.project.JuryDuty.pojos.Vote;
-import com.project.JuryDuty.repository.CategoryRepository;
-import com.project.JuryDuty.repository.ContestRepository;
-import com.project.JuryDuty.repository.ContestantRepository;
-import com.project.JuryDuty.repository.ResultRepository;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -34,7 +33,11 @@ public class VoteService {
 	
 	@Autowired
 	private ContestRepository contestRepository;
-	
+
+	@Autowired
+	private JuryAccountRepository juryAccountRepository;
+
+
 	
 	public void voteContestant(Vote vote) {
 		Vote.counter++;
@@ -62,7 +65,7 @@ public class VoteService {
 
 	public void endSeries() {
 		
-		int juryNumber = 3;//Vote.counter / (int)categoryRepository.count() / (int)contestantRepository.count();
+		int juryNumber = (int) juryAccountRepository.count();
 		System.out.println("jury num: " + juryNumber);
 		
 		for(Contestant contestant : contestantRepository.findAll()) {
@@ -88,22 +91,26 @@ public class VoteService {
 	}
 	
 	public void endRound() {
-		
-//		ssy
-//		
-		for (Contestant contestant : contestantRepository.findAll()) {
-//			if(contestant)
-			
-			if(contestant.getGrade() < contestRepository.findAll().get(0).getMinGrade()) {
-				for(Result result : resultRepository.findAll()) {
-					if(result.getContestant().getPairName() == contestant.getPairName()) {
-						resultRepository.delete(result);
-					}
+
+		String typeOfContest = contestRepository.findAll().get(0).getType();
+		if(typeOfContest.equals("battle")){
+			int i;
+			for(i = 1; i < contestantRepository.count(); i += 2){
+				if(contestantRepository.findAll().get(i).getGrade() < contestantRepository.findAll().get(i + 1).getGrade()) {
+					contestantRepository.deleteById((long) Math.toIntExact(i));
+				} else {
+					contestantRepository.deleteById((long) Math.toIntExact(i + 1));
 				}
-								
-				contestantRepository.delete(contestant);		
+			}
+		} else if (typeOfContest.equals("allTeams") || typeOfContest.equals("oneByOne")){
+			for(Contestant contestant : contestantRepository.findAll()){
+				if(contestant.getGrade() < contestRepository.findAll().get(0).getMinGrade()) {
+					contestantRepository.delete(contestant);
+				}
 			}
 		}
+
+		resultRepository.deleteAll();
 	}
 
 }
