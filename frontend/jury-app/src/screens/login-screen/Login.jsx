@@ -7,6 +7,7 @@ const Login = () => {
     const [juryPressed, setJury] = useState(false);
     const [user, setUser] = useState();
     const [password, setPassword] = useState();
+    const [createAccount, setCreateAccount] = useState(false);
 
     const sendData = () => {
         const body = {
@@ -14,11 +15,13 @@ const Login = () => {
             password: password,
             isAdmin: organiserPressed
         }
+        setCreateAccount(true);
     }
 
     const setDefault = () => {
         setOrganiser(false);
         setJury(false);
+        setCreateAccount(false);
         setUser("");
         setPassword("");
     }
@@ -87,7 +90,10 @@ const Login = () => {
 
     return (
         <div className="login-container">
-            <div className="main-title">{'Welcome to the Log in Page!'}</div>
+            {createAccount?
+                <div className="main-title">{'Create your account!'}</div>:
+                <div className="main-title">{'Welcome to the Log in Page!'}</div>
+            }
             {renderButtons()}
             {renderInputs()}
         </div>

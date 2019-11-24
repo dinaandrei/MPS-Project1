@@ -1,51 +1,58 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import VoteTeamCriterias from './VoteTeamCriterias';
+import { routes } from '../../utils/backendRoutes';
+import { getData } from '../../utils/fetches';
+import Button from '@material-ui/core/Button';
+import GroupIcon from '../../group.svg'
 
-import Navigation from '../../components/Navigation';
-import DefaultMessage from './DefaultMessage';
-
-const NAVIGATION_ITEMS = {
-    CURRENT_ROUND: 'Current_Round',
-    DELETE_ROUND: 'Delete Rounds',
-    DELETE_TEAM: 'Disqualify Team',
-    CHANGE_DEFAULT_VALUES: 'Modify jury criterias',
-    SPECIAL_ROUNDS: 'Special Rounds',
-    DEFAULT: 'Default',
-}
-
-const NAVIGATION_ITEMS_LIST = Object.values(NAVIGATION_ITEMS);
-NAVIGATION_ITEMS_LIST.pop();
+const mockCriterias = ["unu", "doua", "trei"];
+const mockTeams = ["echipa1", "echipa2", "echipa3"]
 
 const MainJuryPage = () => {
-    const list = NAVIGATION_ITEMS_LIST;
-    const [selected, setSelected] = useState('Default')
 
-    const handleSelect = (element) => setSelected(element);
+    const [teams, setTeams] = useState(mockTeams);
+    const [criterias, setCriterias] = useState(mockCriterias);
+    const [selected, setSelected] = useState("");
+    const sendData = () => { }
 
-    const renderContent = () => {
-        switch (selected) {
-            case NAVIGATION_ITEMS.CURRENT_ROUND:
-                return <div>asdasdas</div>
-            case NAVIGATION_ITEMS.DELETE_ROUND:
-                return <div> delete round</div>
-            case NAVIGATION_ITEMS.DELETE_TEAM:
-                return <div> delete team</div>
-            case NAVIGATION_ITEMS.CHANGE_DEFAULT_VALUES:
-                return <div> change default values</div>
-            case NAVIGATION_ITEMS.SPECIAL_ROUNDS:
-                return <div> special rounds</div>
-            case NAVIGATION_ITEMS.DEFAULT:
-                return <DefaultMessage />
-            default:
-                return <div>ERROR</div>;
-        }
+    useEffect(() => {
+        refetchData();
+    }, [])
+
+    const refetchData = () => {
+        getData(routes.getContestants).then(res => setTeams(res.map(x => x.pairName)));
+        getData(routes.getCriterias).then(res => setCriterias(res.map(x => x.name)));
     }
 
+    const renderTeams = () => !selected ?
+        <div className="teams--wrapeer">{
+            teams.map(team =>
+                <div key={`${team}--jury-card`} className="team--jury" onClick={() => setSelected(team)}>
+                    {team}
+                    <img style={{ width: '80px' }} src={GroupIcon} />
+                </div>
+            )
+        }</div> :
+        <VoteTeamCriterias
+            criterias={criterias}
+            submit={sendData}
+            cancel={() => setSelected("")}
+            name={selected}
+        />
+
+
     return (
-        <div>
-            <Navigation list={list} selected={selected} handleSelect={handleSelect} />
-            <div className="content">
-                {renderContent()}
-            </div>
+        <div className="content jury-content">
+            {!selected && <div className="title">Choose your votes Wisely!</div>}
+            {renderTeams()}
+            <Button
+                onClick={refetchData}
+                variant="contained"
+                color={"secondary"}
+                className="button"
+            >
+                {'Refresh Round!'}
+            </Button>
         </div>
     );
 }
