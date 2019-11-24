@@ -35,6 +35,6 @@ public class Contest {
 	
 	private String password;
 	
-	private List<Integer> minGrade;
+	private int minGrade;
 	
 }

@@ -104,8 +104,7 @@ public class VoteService {
 			}
 		} else if (typeOfContest.equals("allTeams") || typeOfContest.equals("oneByOne")){
 			for(Contestant contestant : contestantRepository.findAll()){
-				int minGrade = contestRepository.findAll().get(0).getMinGrade().get(Math.toIntExact(contestant.getId()));
-				if(contestant.getGrade() < minGrade) {
+				if(contestant.getGrade() < contestRepository.findAll().get(0).getMinGrade()) {
 					contestantRepository.delete(contestant);
 				}
 			}
