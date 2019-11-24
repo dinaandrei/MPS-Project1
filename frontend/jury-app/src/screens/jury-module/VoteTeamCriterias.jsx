@@ -22,8 +22,8 @@ const VoteTeamCriterias = ({ name, criterias, submit, cancel }) => {
     )
 
     const submitTeam = () => {
-        const result = scores.map((x,i) => ({}))
-        submit(scores)
+        const result = scores.map((x,i) => ({[criterias[i]]: x/10}))
+        submit(result);
     }
 
     const cancelTeam = () => {
@@ -35,7 +35,7 @@ const VoteTeamCriterias = ({ name, criterias, submit, cancel }) => {
             <Button
                 onClick={submitTeam}
                 variant="contained"
-                color={"primary"}
+                color={"secondary"}
                 className="button"
             >
                 {'Sumbit Score'}

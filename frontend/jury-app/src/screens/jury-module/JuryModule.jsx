@@ -5,30 +5,35 @@ import { getData } from '../../utils/fetches';
 import Button from '@material-ui/core/Button';
 import GroupIcon from '../../group.svg'
 
-const mockCriterias = ["unu", "doua", "trei"];
-const mockTeams = ["echipa1", "echipa2", "echipa3"]
-
 const MainJuryPage = () => {
 
-    const [teams, setTeams] = useState(mockTeams);
-    const [criterias, setCriterias] = useState(mockCriterias);
+    const [teams, setTeams] = useState([]);
+    const [criterias, setCriterias] = useState([]);
     const [selected, setSelected] = useState("");
-    const sendData = () => { }
 
     useEffect(() => {
         refetchData();
     }, [])
 
     const refetchData = () => {
-        getData(routes.getContestants).then(res => setTeams(res.map(x => x.pairName)));
+        getData(routes.getContestants).then(res => setTeams(res));
         getData(routes.getCriterias).then(res => setCriterias(res.map(x => x.name)));
+    }
+
+    const sendData = (grades) => { 
+        console.log({grades, selected})
+        cancel();
+    }
+
+    const cancel = () => {
+        setSelected("")
     }
 
     const renderTeams = () => !selected ?
         <div className="teams--wrapeer">{
             teams.map(team =>
-                <div key={`${team}--jury-card`} className="team--jury" onClick={() => setSelected(team)}>
-                    {team}
+                <div key={`${team.pairName}--jury-card`} className="team--jury" onClick={() => setSelected(team)}>
+                    {team.pairName}
                     <img style={{ width: '80px' }} src={GroupIcon} />
                 </div>
             )
@@ -36,23 +41,27 @@ const MainJuryPage = () => {
         <VoteTeamCriterias
             criterias={criterias}
             submit={sendData}
-            cancel={() => setSelected("")}
-            name={selected}
+            cancel={cancel}
+            name={selected.pairName}
         />
 
 
     return (
         <div className="content jury-content">
-            {!selected && <div className="title">Choose your votes Wisely!</div>}
+            {!selected &&
+                <>
+                    <div className="title">Choose your votes Wisely!</div>
+                    <div className="button--refresh">
+                        <Button
+                            onClick={refetchData}
+                            variant="contained"
+                            color={"primary"}
+                        >
+                            {'Refresh Round!'}
+                        </Button>
+                    </div>
+                </>}
             {renderTeams()}
-            <Button
-                onClick={refetchData}
-                variant="contained"
-                color={"secondary"}
-                className="button"
-            >
-                {'Refresh Round!'}
-            </Button>
         </div>
     );
 }
