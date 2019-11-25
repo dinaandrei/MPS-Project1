@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 
 import com.project.JuryDuty.model.JuryAccount;
+import com.project.JuryDuty.model.Pair;
 import com.project.JuryDuty.repository.JuryAccountRepository;
 import com.project.JuryDuty.repository.AdminAccountRepository;
 
@@ -34,36 +35,26 @@ public class JuryAccountController {
 
 	@CrossOrigin(origins = "http://localhost:3000")
 	@PostMapping("/verifyJuryAccount")
-	ResponseEntity<?> verifyJuryAccount(@Valid @RequestBody JuryAccount juryAccount) throws URISyntaxException{
-		
-		if(juryAccount.isCreateJuryAccount() == true) {
-					
-			if(juryAccount.getPassword().equals("jury") && juryAccount.getUsername().equals("jury")){
+	Pair verifyJuryAccount(@Valid @RequestBody JuryAccount juryAccount) throws URISyntaxException{
+	
+		for(JuryAccount jury : juryAccountRepository.findAll()) {
+			System.out.println(jury.getPassword());
+			
+			if(juryAccount.getPassword().equals(jury.getPassword()) && juryAccount.getUsername().equals(jury.getUsername())){
 				System.out.println("ok");
-				return new ResponseEntity(HttpStatus.OK);
-			} else {
-				System.out.println("forbidden");
-				return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-			}
-		} else {
-			
-			System.out.println(juryAccountRepository.count());
-			for(JuryAccount jury : juryAccountRepository.findAll()) {
-				System.out.println(jury.getPassword());
-				if(juryAccount.getPassword().equals(jury.getPassword()) && juryAccount.getUsername().equals(jury.getUsername())){
-					System.out.println("ok");
-					return new ResponseEntity(HttpStatus.OK);
-				} 
-				 
-			}
+				return new Pair(new ResponseEntity(HttpStatus.OK), false);
+			} 
 			 
-		
-			System.out.println(ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null));
-			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-			
 		}
 		
-		
+		if(juryAccount.getPassword().equals("jury") && juryAccount.getUsername().equals("jury")){
+			System.out.println("ok");
+			return new Pair(new ResponseEntity(HttpStatus.OK), true);
+		} else {
+			System.out.println("forbidden");
+			return new Pair( new ResponseEntity<>(HttpStatus.FORBIDDEN), false);
+		}
+
 	}
 
 
@@ -82,6 +73,8 @@ public class JuryAccountController {
 	ResponseEntity<?> setupAdminAccount(@Valid @RequestBody AdminAccount AdminAccount) throws URISyntaxException{
 		if(AdminAccount.getPassword().equals("admin") && AdminAccount.getUsername().equals("admin")) {
 			return new ResponseEntity<>(HttpStatus.OK);
+			
+			
 		} else {
 			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 		}
