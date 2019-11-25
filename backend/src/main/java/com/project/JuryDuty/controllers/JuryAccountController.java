@@ -35,13 +35,35 @@ public class JuryAccountController {
 	@CrossOrigin(origins = "http://localhost:3000")
 	@PostMapping("/verifyJuryAccount")
 	ResponseEntity<?> verifyJuryAccount(@Valid @RequestBody JuryAccount juryAccount) throws URISyntaxException{
-		if(juryAccount.getPasswordRootAdmin().equals("jury") && juryAccount.getUsernameRootAdmin().equals("jury")){
-			System.out.println(ResponseEntity.ok());
-			return new ResponseEntity(HttpStatus.OK);
+		
+		if(juryAccount.isCreateJuryAccount() == true) {
+					
+			if(juryAccount.getPassword().equals("jury") && juryAccount.getUsername().equals("jury")){
+				System.out.println("ok");
+				return new ResponseEntity(HttpStatus.OK);
+			} else {
+				System.out.println("forbidden");
+				return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+			}
 		} else {
+			
+			System.out.println(juryAccountRepository.count());
+			for(JuryAccount jury : juryAccountRepository.findAll()) {
+				System.out.println(jury.getPassword());
+				if(juryAccount.getPassword().equals(jury.getPassword()) && juryAccount.getUsername().equals(jury.getUsername())){
+					System.out.println("ok");
+					return new ResponseEntity(HttpStatus.OK);
+				} 
+				 
+			}
+			 
+		
 			System.out.println(ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null));
 			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+			
 		}
+		
+		
 	}
 
 
