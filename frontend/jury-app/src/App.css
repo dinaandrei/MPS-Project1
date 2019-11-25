@@ -211,8 +211,9 @@ body{
 }
 .teams--wrapeer .team--jury{
     cursor: pointer;
-    width: 120px;
-    margin: 20px;
+    width: 91px;
+    margin: 30px;
+    padding: 10px;
 }
 .teams--wrapeer .team--jury:hover{
     -webkit-box-shadow: 13px -7px 18px 0px rgba(0,0,0,0.75);

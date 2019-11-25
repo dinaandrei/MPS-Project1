@@ -4,7 +4,9 @@ export const routes = {
 
     // -------------- login ------------------
 
-    login: mainUrl.concat('/login'),
+    getAuthStatusAdmin: mainUrl.concat('/admin/adminAccount'),
+    getAuthStatusJury: mainUrl.concat('/admin/juryAccount'),
+    postCredentials: mainUrl.concat('/admin/juryAccount'),
 
     // -------------- get -------------------
 

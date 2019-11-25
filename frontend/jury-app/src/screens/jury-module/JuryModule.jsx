@@ -1,17 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import VoteTeamCriterias from './VoteTeamCriterias';
+import { useLocation, useHistory } from 'react-router-dom';
 import { routes } from '../../utils/backendRoutes';
 import { getData } from '../../utils/fetches';
 import Button from '@material-ui/core/Button';
 import GroupIcon from '../../group.svg'
 
 const MainJuryPage = () => {
-
+    const history = useHistory();
+    const location = useLocation();
+    
     const [teams, setTeams] = useState([]);
     const [criterias, setCriterias] = useState([]);
     const [selected, setSelected] = useState("");
+    
+    const goTo = (route) => {
+        history.push(route);
+    }
 
     useEffect(() => {
+        const isAdmin = localStorage.getItem("isAdmin");
+        const isJury = localStorage.getItem("isJury");
+
+        if (!isJury && location.pathname === '/jury') {
+            goTo("/");
+        } else if (isAdmin && location.pathname !== '/admin') {
+            goTo("/admin");
+        }
         refetchData();
     }, [])
 
@@ -20,8 +35,8 @@ const MainJuryPage = () => {
         getData(routes.getCriterias).then(res => setCriterias(res.map(x => x.name)));
     }
 
-    const sendData = (grades) => { 
-        console.log({grades, selected})
+    const sendData = (grades) => {
+        console.log({ grades, selected })
         cancel();
     }
 

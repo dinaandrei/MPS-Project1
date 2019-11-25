@@ -31,7 +31,8 @@ public class CategoryController {
 //	long getNumberCategories(){
 //		return categoryRepository.count();
 //	}
-	
+
+	@CrossOrigin(origins = "http://localhost:3000")
 	@RequestMapping("/category")
 	public Collection<Category> addCategory(@Valid @RequestBody CategoryWrapper categoryWrapper ){
 		for(int i = 0; i < categoryWrapper.getNames().size(); i++) {

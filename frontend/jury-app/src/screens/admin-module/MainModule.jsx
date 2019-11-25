@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation, useHistory } from 'react-router-dom';
 
 import CreateEvent from './create-event/CreateEvent';
 import Navigation from '../../components/Navigation';
@@ -39,6 +40,9 @@ NAVIGATION_ITEMS_LIST.pop();
 
 
 const MainAdminPage = () => {
+    const history = useHistory();
+    const location = useLocation();
+
     const [selected, setSelected] = useState('Default')
     const [ongoingEvent, setOngoingEvent] = useState(false)
     const [eventStarted, setStartedEvent] = useState(false);
@@ -56,8 +60,20 @@ const MainAdminPage = () => {
         func: () => handleSelect(x),
         description: DESCRIPTIONS[index],
     }))
+    
+    const goTo = (route) => {
+        history.push(route);
+    }
 
     useEffect(() => {
+        const isAdmin = localStorage.getItem("isAdmin");
+        const isJury = localStorage.getItem("isJury");
+
+        if (isJury && location.pathname !== '/jury') {
+            goTo("/jury");
+        } else if (!isAdmin && location.pathname === '/admin') {
+            goTo("/");
+        }
         getOngoingEvent();
     }, [])
 
