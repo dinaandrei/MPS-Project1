@@ -25,5 +25,7 @@ public class JuryAccount {
 	
 	private String usernameJury;
 	private String passwordJury;
+
+	private boolean isAdmin = false;
 	
 }
