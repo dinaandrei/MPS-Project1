@@ -80,7 +80,7 @@ public class VoteService {
 			}
 			
 			System.out.println("sum mark:" + sumMark);
-	
+			contestant.setGrade(sumMark / juryNumber);
 			System.out.println("grade: " + contestant.getGrade());
 			
 			contestantRepository.save(contestant);
