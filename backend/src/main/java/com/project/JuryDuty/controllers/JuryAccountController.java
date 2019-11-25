@@ -32,8 +32,9 @@ public class JuryAccountController {
 		return juryAccountRepository.findAll();
 	}
 
-	@CrossOrigin(origins = "http://localhost:3000")
 	@PostMapping("/verifyJuryAccount")
+	@CrossOrigin(origins = "http://localhost:3000")
+
 	ResponseEntity<?> verifyJuryAccount(@Valid @RequestBody JuryAccount juryAccount) throws URISyntaxException{
 		
 		if(juryAccount.isCreateJuryAccount() == true) {
