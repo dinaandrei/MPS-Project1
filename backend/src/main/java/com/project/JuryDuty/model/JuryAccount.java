@@ -20,8 +20,8 @@ public class JuryAccount {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	private String usernameRootAdmin;
-	private String passwordRootAdmin;
+	private String username;
+	private String password;
 	
 	private String usernameJury;
 	private String passwordJury;

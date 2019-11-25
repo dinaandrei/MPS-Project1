@@ -35,7 +35,7 @@ public class JuryAccountController {
 	@CrossOrigin(origins = "http://localhost:3000")
 	@PostMapping("/verifyJuryAccount")
 	ResponseEntity<?> verifyJuryAccount(@Valid @RequestBody JuryAccount juryAccount) throws URISyntaxException{
-		if(juryAccount.getPasswordRootAdmin().equals("jury") && juryAccount.getUsernameRootAdmin().equals("jury")){
+		if(juryAccount.getPassword().equals("jury") && juryAccount.getUsername().equals("jury")){
 			System.out.println(ResponseEntity.ok());
 			return new ResponseEntity(HttpStatus.OK);
 		} else {
@@ -49,8 +49,6 @@ public class JuryAccountController {
 	@PostMapping("/juryAccount")
 	ResponseEntity<JuryAccount> setupJuryAccount(@Valid @RequestBody JuryAccount juryAccount) throws URISyntaxException{
 		JuryAccount result = juryAccountRepository.save(juryAccount);
-
-
 
 		return ResponseEntity.created(new URI("/admin/addJuryAccount" + result.getId())).body(result);
 	}

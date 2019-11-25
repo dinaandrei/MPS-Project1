@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 
 import CreateEvent from './create-event/CreateEvent';
+import Logout from '../../components/Logout';
 import Navigation from '../../components/Navigation';
 import DefaultMessage from './DefaultMessage';
 import { routes } from '../../utils/backendRoutes';
@@ -66,12 +67,15 @@ const MainAdminPage = () => {
     }
 
     useEffect(() => {
-        const isAdmin = localStorage.getItem("isAdmin");
-        const isJury = localStorage.getItem("isJury");
+        const isAdmin = localStorage.getItem("isAdmin") === "true";
+        const isJury = localStorage.getItem("isJury") === "true";
+        console.log({isJury, isAdmin})
 
         if (isJury && location.pathname !== '/jury') {
+            console.log("1")
             goTo("/jury");
         } else if (!isAdmin && location.pathname === '/admin') {
+            console.log("1")
             goTo("/");
         }
         getOngoingEvent();
@@ -201,6 +205,7 @@ const MainAdminPage = () => {
             <div className="content">
                 {renderContent()}
             </div>
+            <Logout/>
         </div>
     );
 }

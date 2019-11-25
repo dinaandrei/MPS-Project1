@@ -3,9 +3,12 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import { routes } from '../../utils/backendRoutes';
 import { postData } from '../../utils/fetches';
+import { useHistory } from 'react-router-dom';
 import CreateAccount from './CreateAccount';
 
 const Login = () => {
+    const history = useHistory();
+    
     const [organiserPressed, setOrganiser] = useState(false);
     const [juryPressed, setJury] = useState(false);
     const [user, setUser] = useState();
@@ -24,36 +27,40 @@ const Login = () => {
             password: password,
         };
         const method = organiserPressed? routes.getAuthStatusAdmin : routes.getAuthStatusJury;
-        // postData(method, body)
-        //     .then(({ createJuryAccount, status }) => {
-        //         if (status % 100 === 2) {
-        //             if (createJuryAccount) {
-        //                 setCreateAccount(true);
-        //                 return;
-        //             }
-        //             if (organiserPressed) {
-        //                 localStorage.setItem('isAdmin', true);
-        //                 return;
-        //             } else {
-        //                 localStorage.setItem('isJury', true);
-        //                 return;
-        //             }
-        //         } else {
-        //             setError(true);
-        //         }
-        //     })
+        postData(method, body)
+            .then((res) => {
+                const { createJuryAccount, status } = res;
+                console.log(res);
+                if (status / 100 === 2) {
+                    if (createJuryAccount) {
+                        setCreateAccount(true);
+                        return;
+                    }
+                    if (organiserPressed) {
+                        localStorage.setItem('isAdmin', true);
+                        history.push('/admin')
+                        return;
+                    } else {
+                        localStorage.setItem('isJury', true);
+                        history.push('/jury')
+                        return;
+                    }
+                } else {
+                    setError(true);
+                }
+            })
         setFieldError(false);
     }
 
     const submitCredentials = body => {
-        // postData(routes.getAuthStatus, body)
-        //     .then(({ status }) => {
-        //         if (status % 100 !== 2) {
-        //             setError(true);
-        //         } else {
-        //             setDefault(true)
-        //         }
-        //     })
+        postData(routes.getAuthStatus, body)
+            .then(({ status }) => {
+                if (status / 100 !== 2) {
+                    setError(true);
+                } else {
+                    setDefault(true)
+                }
+            })
     }
 
     const setDefault = () => {

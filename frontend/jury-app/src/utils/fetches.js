@@ -6,7 +6,16 @@ const postData = async (url = '', data = {}) => {
         },
         body: JSON.stringify(data)
     })
-      return await response.json();
+    if (response.ok) { // if HTTP-status is 200-299
+        // get the response body (the method explained below)
+        try{
+            return await response.json();
+        } catch {
+            return response;
+        }
+    } else {
+        return response;
+    }
 
 }
 
@@ -17,7 +26,16 @@ const getData = async (url = '') => {
             'Content-Type': 'application/json'
         },
     })
-    return await response.json();
+    if (response.ok) { // if HTTP-status is 200-299
+        // get the response body (the method explained below)
+        try{
+            return await response.json();
+        } catch {
+            return response;
+        }
+    } else {
+        return response;
+    }
 }
 
 const deleteData = async (url = '') => {
@@ -27,7 +45,16 @@ const deleteData = async (url = '') => {
             'Content-Type': 'application/json'
         },
     })
-    return await response.json();
+    if (response.ok) { // if HTTP-status is 200-299
+        // get the response body (the method explained below)
+        try{
+            return await response.json();
+        } catch {
+            return response;
+        }
+    } else {
+        return response;
+    }
 }
 
-export {postData, getData, deleteData};
+export { postData, getData, deleteData };

@@ -5,6 +5,7 @@ import { routes } from '../../utils/backendRoutes';
 import { getData } from '../../utils/fetches';
 import Button from '@material-ui/core/Button';
 import GroupIcon from '../../group.svg'
+import Logout from '../../components/Logout';
 
 const MainJuryPage = () => {
     const history = useHistory();
@@ -19,8 +20,8 @@ const MainJuryPage = () => {
     }
 
     useEffect(() => {
-        const isAdmin = localStorage.getItem("isAdmin");
-        const isJury = localStorage.getItem("isJury");
+        const isAdmin = localStorage.getItem("isAdmin") === "true";
+        const isJury = localStorage.getItem("isJury") === "true";
 
         if (!isJury && location.pathname === '/jury') {
             goTo("/");
@@ -77,6 +78,7 @@ const MainJuryPage = () => {
                     </div>
                 </>}
             {renderTeams()}
+            <Logout/>
         </div>
     );
 }

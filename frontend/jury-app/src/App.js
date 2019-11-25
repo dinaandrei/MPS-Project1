@@ -14,9 +14,9 @@ const App = () => {
     }
 
     useEffect(()=>{
-        const isAdmin = localStorage.getItem("isAdmin");
-        const isJury = localStorage.getItem("isJury");
-        console.log({location});
+        const isAdmin = localStorage.getItem("isAdmin") === "true";
+        const isJury = localStorage.getItem("isJury") === "true";
+        console.log({isAdmin, isJury})
         if(isJury && location.pathname !== '/jury'){
             goTo("/jury");
         } else if(isAdmin && location.pathname !== '/admin'){

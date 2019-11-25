@@ -9,6 +9,13 @@ body{
   /* background-image: url("background.png"); */
 }
 
+.logout {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 100;
+}
+
 .content {
     width: 70vw;
     height: 80vh;
