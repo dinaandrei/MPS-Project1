@@ -37,4 +37,7 @@ public class Contest {
 	
 	private int minGrade;
 	
+	private int currentRound = 0;
+	
+	private int currentSerie = 0;
 }
