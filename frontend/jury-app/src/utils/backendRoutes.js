@@ -21,6 +21,7 @@ export const routes = {
     postCategories: mainUrl.concat('/admin/category'),
     postContest: mainUrl.concat('/admin/addContest'),
     postContestants: mainUrl.concat('/api/contestant'),
+    voteTeam: mainUrl.concat('/api/vote'),
 
     // ------------- delete ----------------
 

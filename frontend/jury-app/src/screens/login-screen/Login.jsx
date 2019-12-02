@@ -25,14 +25,13 @@ const Login = () => {
         const body = {
             username: user,
             password: password,
-            createJuryAccount: false,
         };
         const method = organiserPressed ? routes.getAuthStatusAdmin : routes.getAuthStatusJury;
         if (!organiserPressed) body.createJuryAccount = true;
         postData(method, body)
             .then((res) => {
                 const { createJuryAccount } = res;
-                const status = res.response ? res.response.statusCodeValue : 100;
+                const status = res.response ? res.response.statusCodeValue : res.status;
                 console.log(res);
                 console.log(createJuryAccount, status);
                 if (status / 100 === 2) {

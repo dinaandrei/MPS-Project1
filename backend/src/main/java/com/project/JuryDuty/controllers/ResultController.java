@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import com.project.JuryDuty.model.Category;
 import com.project.JuryDuty.model.Contestant;
@@ -35,12 +36,14 @@ public class ResultController {
 	
 	@Autowired
 	private VoteService voteService;
-	
+
+	@CrossOrigin(origins = "http://localhost:3000")
 	@GetMapping("/votes")
 	Collection<Result> getAllVotes(){
 		return resultRepository.findAll();
 	}
-	
+
+	@CrossOrigin(origins = "http://localhost:3000")
 	@PostMapping("/vote")
 	public void voteContestant(@Valid @RequestBody Vote vote) {
 		voteService.voteContestant(vote);

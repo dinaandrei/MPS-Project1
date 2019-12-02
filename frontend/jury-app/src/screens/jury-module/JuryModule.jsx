@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import VoteTeamCriterias from './VoteTeamCriterias';
 import { useLocation, useHistory } from 'react-router-dom';
 import { routes } from '../../utils/backendRoutes';
-import { getData } from '../../utils/fetches';
+import { getData, postData } from '../../utils/fetches';
 import Button from '@material-ui/core/Button';
 import GroupIcon from '../../group.svg'
 import Logout from '../../components/Logout';
@@ -38,6 +38,15 @@ const MainJuryPage = () => {
 
     const sendData = (grades) => {
         console.log({ grades, selected })
+        grades.forEach(({mark, category}) => {
+            const body = {
+                mark: mark,
+                category: category,
+                contestantName: selected.pairName,
+            }
+            console.log({body})
+            postData(routes.voteTeam, body);
+        })
         cancel();
     }
 

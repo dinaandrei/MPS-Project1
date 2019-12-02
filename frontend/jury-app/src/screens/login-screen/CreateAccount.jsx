@@ -20,7 +20,7 @@ const CreateAccount = ({setDefault, submitCredentials}) => {
         if (!doRequest) return;
 
         submitCredentials({
-            userName: user,
+            username: user,
             password: password,
         })
     }

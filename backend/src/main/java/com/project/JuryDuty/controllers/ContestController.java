@@ -60,7 +60,8 @@ public class ContestController {
 		
 		roundAndSeriesService.setRoundStarted(false);
 		voteService.endRound();
-		//TODO: avanseaza pr/imii(insert predefined value here) deci tot ce cred ca ar trebuie facut e sa scoatem competitorii descalificati(cei cu nota < predefined value) din tabela contestant
+		//TODO: avanseaza pr/imii(insert predefined value here) deci tot ce cred ca ar trebuie facut e sa scoatem
+		// competitorii descalificati(cei cu nota < predefined value) din tabela contestant
 	}
 
 	@CrossOrigin(origins = "http://localhost:3000")

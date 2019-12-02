@@ -83,6 +83,7 @@ const MainAdminPage = () => {
 
     const startEvent = () => {
         setStartedEvent(true);
+        
     }
 
     const deleteRound = (index) => {
@@ -131,7 +132,7 @@ const MainAdminPage = () => {
     }
 
     const getRounds = () => {
-        getData(routes.getRounds).then(res => {
+        getData(routes.getContest).then(res => {
             console.log({ res })
             setCurrentRound(res);
             setRoundsNumber(res.roundsNumber)

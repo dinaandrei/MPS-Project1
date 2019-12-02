@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Button from '@material-ui/core/Button';
 
-const CurrentRound = ({ eventStarted, currentRound, roundsNumber, startEvent, startNextRound, endEvent}) => {
+const CurrentRound = ({ eventStarted, currentRound, roundsNumber, startEvent, startNextRound, endEvent, getRounds}) => {
 
+    useEffect(()=>{
+        getRounds();
+    },[]);
 
     const renderContent = () => eventStarted ? renderCurrentRound() : renderStartEvent()
 

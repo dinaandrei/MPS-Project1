@@ -3,6 +3,7 @@ package com.project.JuryDuty.controllers;
 import java.net.URISyntaxException;
 import java.util.Collection;
 import java.util.concurrent.atomic.AtomicInteger;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import com.project.JuryDuty.model.AdminAccount;
 import org.springframework.http.HttpStatus;
@@ -38,9 +39,7 @@ public class JuryAccountController {
 	Pair verifyJuryAccount(@Valid @RequestBody JuryAccount juryAccount) throws URISyntaxException{
 	
 		for(JuryAccount jury : juryAccountRepository.findAll()) {
-			System.out.println(jury.getPassword());
-			System.out.println(jury.getUsername());
-			
+
 			if(juryAccount.getPassword().equals(jury.getPassword()) && juryAccount.getUsername().equals(jury.getUsername())){
 				System.out.println("ok");
 				return new Pair(new ResponseEntity(HttpStatus.OK), false);
@@ -66,7 +65,7 @@ public class JuryAccountController {
 		AtomicInteger ok = new AtomicInteger(1);
 		all.forEach(
 			(n) -> {
-				if(n.getPassword().equals(juryAccount.getPassword())) {
+				if(n.getUsername().equals(juryAccount.getUsername())) {
 					ok.set(0);
 				};
 			}
