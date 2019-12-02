@@ -28,23 +28,23 @@ const CurrentRound = ({ eventStarted, currentRound, currentSet,
     const renderCurrentRound = (condition = roundsNumber === currentRound) => (
         <div className="start-event--wrapper current-round">
             <div className="title">{'Round Status'}</div>
-            <div></div>
-            <Button
-                onClick={condition? endEvent : startNextRound}
-                variant="contained"
-                color={"secondary"}
-                className="button"
-            >
-                {condition? "End Event" : `Start Round ${currentRound + 1}`}
-            </Button>
-            <Button
-                onClick={condition? startNextRound : startNextSet}
-                variant="contained"
-                color={"secondary"}
-                className="button"
-            >
-                {condition? "End Round" : `Start Series ${currentSet + 1}`}
-            </Button>
+            <div className="buttons-rounds">
+                <Button
+                    onClick={condition? endEvent : startNextRound}
+                    variant="contained"
+                    color={"secondary"}
+                    className="button"
+                >
+                    {condition? "End Event" : `Start Round ${currentRound + 1}`}
+                </Button>
+                <Button
+                    onClick={startNextSet}
+                    variant="contained"
+                    className="button button-green"
+                >
+                    {condition? "End Round" : `Start Series ${currentSet + 1}`}
+                </Button>
+            </div>
         </div>
     )
 
