@@ -39,6 +39,7 @@ public class JuryAccountController {
 	
 		for(JuryAccount jury : juryAccountRepository.findAll()) {
 			System.out.println(jury.getPassword());
+			System.out.println(jury.getUsername());
 			
 			if(juryAccount.getPassword().equals(jury.getPassword()) && juryAccount.getUsername().equals(jury.getUsername())){
 				System.out.println("ok");
