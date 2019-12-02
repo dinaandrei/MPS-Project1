@@ -62,7 +62,7 @@ const MainAdminPage = () => {
         func: () => handleSelect(x),
         description: DESCRIPTIONS[index],
     }))
-    
+
     const goTo = (route) => {
         history.push(route);
     }
@@ -70,7 +70,7 @@ const MainAdminPage = () => {
     useEffect(() => {
         const isAdmin = localStorage.getItem("isAdmin") === "true";
         const isJury = localStorage.getItem("isJury") === "true";
-        console.log({isJury, isAdmin})
+        console.log({ isJury, isAdmin })
 
         if (isJury && location.pathname !== '/jury') {
             console.log("1")
@@ -82,17 +82,17 @@ const MainAdminPage = () => {
         getOngoingEvent();
     }, [])
 
-    useEffect(()=>{
+    useEffect(() => {
         getOngoingEvent();
-    },[selected])
+    }, [selected])
 
     const startEvent = () => {
         setStartedEvent(true);
     }
 
     const getRoundAndSeries = () => {
-        getData(routes.getCurrentRound).then(res=>console.log(setCurrentRound(res)));
-        getData(routes.getCurrentSeries).then(res=>console.log(setCurrentSet(res)));
+        getData(routes.getCurrentRound).then(res => console.log(setCurrentRound(res)));
+        getData(routes.getCurrentSeries).then(res => console.log(setCurrentSet(res)));
     }
 
     const deleteRound = (index) => {
@@ -101,10 +101,10 @@ const MainAdminPage = () => {
 
     const disqualifyTeam = (team) => {
         deleteData(routes.deleteTeam(team))
-        .then(() => {
-            // if(res.status/100 === 2)
-            getTeams();
-        })
+            .then(() => {
+                // if(res.status/100 === 2)
+                getTeams();
+            })
     }
 
     const submitCriteria = (criterias) => {
@@ -113,23 +113,24 @@ const MainAdminPage = () => {
 
     const deleteCriteria = (criteriaId) => {
         deleteData(routes.deleteCriteria(criteriaId))
-        .then(() => {
-            // if(res.status/100 === 2)
-            getCriterias();
-        })
+            .then(() => {
+                // if(res.status/100 === 2)
+                getCriterias();
+            })
     }
 
     const getOngoingEvent = () => {
         getData(routes.getContest).then(event => {
             console.log({ event })
             setOngoingEvent(event.length > 0);
-            if(event.length > 0){
+            if (event.length > 0) {
                 setSetsNumber(event[0].numberOfSeries);
                 setRoundsNumber(event[0].numberOfRounds);
+                // startEvent();
             }
         });
     }
-    
+
     const getTeams = () => {
         getData(routes.getContestants).then(res => {
             console.log({ res })
@@ -149,18 +150,28 @@ const MainAdminPage = () => {
     }
 
     const startNextRound = () => {
-        postData(routes.postStartRound).then(res => console.log({res}));
+        return postData(routes.postEndRound)
+            .then(() => {
+                postData(routes.postStartRound)
+                    .then(res => setCurrentRound(res))
+            });
     }
 
     const startNextSet = () => {
-        postData(routes.postStartSeries).then(res => console.log({res}));
+        return postData(routes.postEndSeries)
+            .then(() => {
+                postData(routes.postStartSeries)
+                    .then(res => setCurrentSet(res))
+            });
     }
 
     const endRound = () => {
-        postData(routes.postEndRound);
-        postData(routes.postEndSeries);
+        startNextRound().then(() =>
+            postData(routes.postStartSeries)
+                    .then(res => setCurrentSet(res))
+        );
     }
-    
+
     const renderContent = () => {
         switch (selected) {
             case NAVIGATION_ITEMS.CREATE:
@@ -225,7 +236,7 @@ const MainAdminPage = () => {
             <div className="content">
                 {renderContent()}
             </div>
-            <Logout/>
+            <Logout />
         </div>
     );
 }

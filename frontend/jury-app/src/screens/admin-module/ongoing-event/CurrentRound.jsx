@@ -21,13 +21,23 @@ const CurrentRound = ({ eventStarted, currentRound, currentSet,
         startNextRound()
     }
 
+    const end = () => {
+        setRoundStarted(true);
+        endRound();
+    }
+
+    const start = () => {
+        setRoundStarted(true);
+        startEvent();
+    }
+
     const renderContent = () => eventStarted ? renderCurrentRound() : renderStartEvent()
 
     const renderStartEvent = () => (
         <div className="start-event--wrapper">
             <div className="title">{'The set-up is ready! All you need to do is start the event'}</div>
             <Button
-                onClick={startEvent}
+                onClick={start}
                 variant="contained"
                 color={"secondary"}
                 className="button"
@@ -44,7 +54,7 @@ const CurrentRound = ({ eventStarted, currentRound, currentSet,
             <div className="title">{'Round Status'}</div>
             <div className="buttons-rounds">
                 {<Button
-                    onClick={condition2? endRound : startRound}
+                    onClick={condition2? end : startRound}
                     variant="contained"
                     color={"secondary"}
                     className="button"
