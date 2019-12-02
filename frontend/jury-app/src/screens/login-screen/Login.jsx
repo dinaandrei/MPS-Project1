@@ -8,7 +8,7 @@ import CreateAccount from './CreateAccount';
 
 const Login = () => {
     const history = useHistory();
-    
+
     const [organiserPressed, setOrganiser] = useState(false);
     const [juryPressed, setJury] = useState(false);
     const [user, setUser] = useState();
@@ -18,7 +18,7 @@ const Login = () => {
     const [fieldError, setFieldError] = useState(false);
 
     const sendData = () => {
-        if(!user || !password) {
+        if (!user || !password) {
             setFieldError(true);
             return;
         }
@@ -27,12 +27,14 @@ const Login = () => {
             password: password,
             createJuryAccount: false,
         };
-        const method = organiserPressed? routes.getAuthStatusAdmin : routes.getAuthStatusJury;
-        if(!organiserPressed) body.createJuryAccount = true;
+        const method = organiserPressed ? routes.getAuthStatusAdmin : routes.getAuthStatusJury;
+        if (!organiserPressed) body.createJuryAccount = true;
         postData(method, body)
             .then((res) => {
-                const { createJuryAccount, status } = res;
+                const { createJuryAccount } = res;
+                const status = res.response ? res.response.statusCodeValue : 100;
                 console.log(res);
+                console.log(createJuryAccount, status);
                 if (status / 100 === 2) {
                     if (createJuryAccount) {
                         setCreateAccount(true);
@@ -55,9 +57,11 @@ const Login = () => {
     }
 
     const submitCredentials = body => {
-        postData(routes.getAuthStatus, body)
-            .then(({ status }) => {
-                if (status / 100 !== 2) {
+        console.log("bruh")
+        postData(routes.postCredentials, body)
+            .then((res) => {
+                console.log({res});
+                if (res.status / 100 !== 2) {
                     setError(true);
                 } else {
                     setDefault(true)
@@ -100,7 +104,7 @@ const Login = () => {
                     value={password}
                 />
             </div>
-            {fieldError && <div style={{color:"red"}}>You need to complete both fields</div>}
+            {fieldError && <div style={{ color: "red" }}>You need to complete both fields</div>}
             <div className="buttons">
                 <Button
                     onClick={sendData}

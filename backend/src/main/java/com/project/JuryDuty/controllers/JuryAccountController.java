@@ -1,8 +1,8 @@
 package com.project.JuryDuty.controllers;
 
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Collection;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import com.project.JuryDuty.model.AdminAccount;
 import org.springframework.http.HttpStatus;
@@ -60,10 +60,24 @@ public class JuryAccountController {
 
 	@CrossOrigin(origins = "http://localhost:3000")
 	@PostMapping("/juryAccount")
-	ResponseEntity<JuryAccount> setupJuryAccount(@Valid @RequestBody JuryAccount juryAccount) throws URISyntaxException{
-		JuryAccount result = juryAccountRepository.save(juryAccount);
+	ResponseEntity<?> setupJuryAccount(@Valid @RequestBody JuryAccount juryAccount) throws URISyntaxException{
+		Collection<JuryAccount> all = juryAccountRepository.findAll();
+		AtomicInteger ok = new AtomicInteger(1);
+		all.forEach(
+			(n) -> {
+				if(n.getPassword().equals(juryAccount.getPassword())) {
+					ok.set(0);
+				};
+			}
+		);
 
-		return ResponseEntity.created(new URI("/admin/addJuryAccount" + result.getId())).body(result);
+		if(ok.get() == 1 ){
+			JuryAccount result = juryAccountRepository.save(juryAccount);
+			return new ResponseEntity<>(HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+		}
+
 	}
 
 	@CrossOrigin(origins = "http://localhost:3000")
