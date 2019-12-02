@@ -59,13 +59,20 @@ public class ContestController {
 	public void endRound() {
 	
 		roundAndSeriesService.setRoundStarted(false);
-		voteService.endRound();
+		//voteService.endRound();
 		
 		Contest contest = contestRepository.findAll().get(0);
 		contest.setCurrentRound(contest.getCurrentRound() + 1);
 		contestRepository.save(contest);
 		
 	}
+	
+	@CrossOrigin(origins = "http://localhost:3000")
+	@GetMapping("/currentRound")
+	int getCurrentRound() {
+		return contestRepository.findAll().get(0).getCurrentRound();
+	}
+
 
 	@CrossOrigin(origins = "http://localhost:3000")
 	@PostMapping("/startSeries")
@@ -79,12 +86,18 @@ public class ContestController {
 	@PostMapping("/endSeries")
 	public void endSeries() {
 		roundAndSeriesService.setSeriesStarted(false);
-		voteService.endSeries();
-		contestRepository.findAll().get(0).setCurrentSerie(contestRepository.findAll().get(0).getCurrentSerie() + 1);
-		
+		//voteService.endSeries();
+			
 		Contest contest = contestRepository.findAll().get(0);
 		contest.setCurrentSerie(contest.getCurrentSerie() + 1);
+		contest.setCurrentRound(0);
 		contestRepository.save(contest);		
+	}
+	
+	@CrossOrigin(origins = "http://localhost:3000")
+	@GetMapping("/currentSeries")
+	int getCurrentSeries() {
+		return contestRepository.findAll().get(0).getCurrentSerie();
 	}
 	
 }
