@@ -16,7 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.JuryDuty.model.Contest;
+import com.project.JuryDuty.model.Contestant;
+import com.project.JuryDuty.model.Result;
 import com.project.JuryDuty.repository.ContestRepository;
+import com.project.JuryDuty.repository.ContestantRepository;
+import com.project.JuryDuty.repository.ResultRepository;
 import com.project.JuryDuty.service.RoundAndSeriesService;
 import com.project.JuryDuty.service.VoteService;
 
@@ -26,6 +30,12 @@ public class ContestController {
 	
 	@Autowired
 	private ContestRepository contestRepository;
+	
+	@Autowired
+	private ResultRepository resultRepository;
+	
+	@Autowired
+	private ContestantRepository contestantRepository;
 	
 	@Autowired
 	private RoundAndSeriesService roundAndSeriesService;
@@ -59,10 +69,11 @@ public class ContestController {
 	public void endRound() {
 	
 		roundAndSeriesService.setRoundStarted(false);
-		//voteService.endRound();
+		voteService.endRound();
 		
 		Contest contest = contestRepository.findAll().get(0);
 		contest.setCurrentRound(contest.getCurrentRound() + 1);
+		contest.setCurrentSerie(0);;
 		contestRepository.save(contest);
 		
 	}
@@ -86,11 +97,10 @@ public class ContestController {
 	@PostMapping("/endSeries")
 	public void endSeries() {
 		roundAndSeriesService.setSeriesStarted(false);
-		//voteService.endSeries();
+		voteService.endSeries();
 			
 		Contest contest = contestRepository.findAll().get(0);
 		contest.setCurrentSerie(contest.getCurrentSerie() + 1);
-		contest.setCurrentRound(0);
 		contestRepository.save(contest);		
 	}
 	
@@ -100,4 +110,17 @@ public class ContestController {
 		return contestRepository.findAll().get(0).getCurrentSerie();
 	}
 	
+	@CrossOrigin(origins = "http://localhost:3000")
+	@PostMapping("/disqualify")
+	public void disqualify(@Valid @RequestBody Contestant contestant) {
+//		System.out.println(pairName);
+//		Contestant contestantToBeDisqualified = contestantRepository.findByPairName(pairName);
+		
+		for (Result result : resultRepository.findAllByContestant(contestant)) {
+			resultRepository.delete(result);
+		}
+		contestantRepository.delete(contestant);
+	}
+	
+
 }
