@@ -6,7 +6,7 @@ import Logout from '../../components/Logout';
 import Navigation from '../../components/Navigation';
 import DefaultMessage from './DefaultMessage';
 import { routes } from '../../utils/backendRoutes';
-import { getData, deleteData } from '../../utils/fetches'
+import { getData, deleteData, postData } from '../../utils/fetches'
 import
 OngoingEvent,
 {
@@ -50,6 +50,7 @@ const MainAdminPage = () => {
     const [currentRound, setCurrentRound] = useState(0);
     const [roundsNumber, setRoundsNumber] = useState(0);
     const [currentSet, setCurrentSet] = useState(0);
+    const [setsNumber, setSetsNumber] = useState(0);
     const [players, setPlayers] = useState([]);
     const [criterias, setCriterias] = useState([]);
 
@@ -81,9 +82,17 @@ const MainAdminPage = () => {
         getOngoingEvent();
     }, [])
 
+    useEffect(()=>{
+        getOngoingEvent();
+    },[selected])
+
     const startEvent = () => {
         setStartedEvent(true);
+    }
 
+    const getRoundAndSeries = () => {
+        getData(routes.getCurrentRound).then(res=>console.log(setCurrentRound(res)));
+        getData(routes.getCurrentSeries).then(res=>console.log(setCurrentSet(res)));
     }
 
     const deleteRound = (index) => {
@@ -111,9 +120,13 @@ const MainAdminPage = () => {
     }
 
     const getOngoingEvent = () => {
-        getData(routes.getContest).then(res => {
-            console.log({ res })
-            setOngoingEvent(res.length > 0);
+        getData(routes.getContest).then(event => {
+            console.log({ event })
+            setOngoingEvent(event.length > 0);
+            if(event.length > 0){
+                setSetsNumber(event[0].numberOfSeries);
+                setRoundsNumber(event[0].numberOfRounds);
+            }
         });
     }
     
@@ -132,29 +145,22 @@ const MainAdminPage = () => {
     }
 
     const getRounds = () => {
-        getData(routes.getContest).then(res => {
-            console.log({ res })
-            setCurrentRound(res);
-            setRoundsNumber(res.roundsNumber)
-        });
-        getSet();
-    }
-
-    const getSet = () => {
-        getData(routes.getSets).then(res => {
-            console.log({ res })
-            setCurrentSet(res);
-        });
+        getRoundAndSeries();
     }
 
     const startNextRound = () => {
-        
+        postData(routes.postStartRound).then(res => console.log({res}));
     }
 
     const startNextSet = () => {
-        
+        postData(routes.postStartSeries).then(res => console.log({res}));
     }
 
+    const endRound = () => {
+        postData(routes.postEndRound);
+        postData(routes.postEndSeries);
+    }
+    
     const renderContent = () => {
         switch (selected) {
             case NAVIGATION_ITEMS.CREATE:
@@ -173,7 +179,9 @@ const MainAdminPage = () => {
                     currentSet={currentSet}
                     startNextSet={startNextSet}
                     startNextRound={startNextRound}
+                    seriesNumber={setsNumber}
                     startEvent={startEvent}
+                    endRound={endRound}
                 />
             case NAVIGATION_ITEMS.DELETE_ROUND:
                 return <DeleteRounds

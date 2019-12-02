@@ -1,13 +1,25 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from '@material-ui/core/Button';
 
 const CurrentRound = ({ eventStarted, currentRound, currentSet, 
-    roundsNumber, startEvent, startNextRound, startNextSet,
-    endEvent, getRounds}) => {
+    roundsNumber, seriesNumber, startEvent, startNextRound, startNextSet,
+    endEvent, getRounds, endRound}) => {
 
+    const [roundStarted, setRoundStarted] = useState(false);
+    
     useEffect(()=>{
         getRounds();
     },[]);
+
+    useEffect(()=>{
+        if(currentSet === seriesNumber)
+            setRoundStarted(false)
+    },[currentSet])
+
+    const startRound = () => {
+        setRoundStarted(true);
+        startNextRound()
+    }
 
     const renderContent = () => eventStarted ? renderCurrentRound() : renderStartEvent()
 
@@ -25,24 +37,28 @@ const CurrentRound = ({ eventStarted, currentRound, currentSet,
         </div>
     )
 
-    const renderCurrentRound = (condition = roundsNumber === currentRound) => (
+    const renderCurrentRound = (
+        condition2 = seriesNumber === currentSet,
+        ) => console.log({seriesNumber,currentSet}) || (
         <div className="start-event--wrapper current-round">
             <div className="title">{'Round Status'}</div>
             <div className="buttons-rounds">
-                <Button
-                    onClick={condition? endEvent : startNextRound}
+                {<Button
+                    onClick={condition2? endRound : startRound}
                     variant="contained"
                     color={"secondary"}
                     className="button"
+                    disabled={roundStarted}
                 >
-                    {condition? "End Event" : `Start Round ${currentRound + 1}`}
-                </Button>
+                    {condition2? "End Round" : `Start Round ${currentRound + 1}`}
+                </Button>}
                 <Button
                     onClick={startNextSet}
                     variant="contained"
                     className="button button-green"
+                    disabled={!roundStarted}
                 >
-                    {condition? "End Round" : `Start Series ${currentSet + 1}`}
+                    {`Start Series ${currentSet + 1}`}
                 </Button>
             </div>
         </div>
