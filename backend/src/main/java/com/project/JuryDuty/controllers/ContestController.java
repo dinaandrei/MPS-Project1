@@ -43,40 +43,61 @@ public class ContestController {
 	@PostMapping("/addContest")
 	ResponseEntity<Contest> setupContest(@Valid @RequestBody Contest contest) throws URISyntaxException{
 		Contest result = contestRepository.save(contest);
-		
 		return ResponseEntity.created(new URI("/admin/addContest" + result.getId())).body(result);
 	}
 
 	@CrossOrigin(origins = "http://localhost:3000")
 	@PostMapping("/startRound")
-	public void startRound() {
+	public int startRound() {
 		roundAndSeriesService.setRoundStarted(true);
-		//System.out.println("runda a inceput: " + roundAndSeriesService.isRoundStarted());
+		return contestRepository.findAll().get(0).getCurrentRound();
+		
 	}
 
 	@CrossOrigin(origins = "http://localhost:3000")
 	@PostMapping("/endRound")
 	public void endRound() {
-		
+	
 		roundAndSeriesService.setRoundStarted(false);
-		voteService.endRound();
-		//TODO: avanseaza pr/imii(insert predefined value here) deci tot ce cred ca ar trebuie facut e sa scoatem
-		// competitorii descalificati(cei cu nota < predefined value) din tabela contestant
+		//voteService.endRound();
+		
+		Contest contest = contestRepository.findAll().get(0);
+		contest.setCurrentRound(contest.getCurrentRound() + 1);
+		contestRepository.save(contest);
+		
 	}
+	
+	@CrossOrigin(origins = "http://localhost:3000")
+	@GetMapping("/currentRound")
+	int getCurrentRound() {
+		return contestRepository.findAll().get(0).getCurrentRound();
+	}
+
 
 	@CrossOrigin(origins = "http://localhost:3000")
 	@PostMapping("/startSeries")
-	public void startSeries() {
+	public int startSeries() {
 		roundAndSeriesService.setSeriesStarted(true);
+		return contestRepository.findAll().get(0).getCurrentSerie();
+		
 	}
 
 	@CrossOrigin(origins = "http://localhost:3000")
 	@PostMapping("/endSeries")
 	public void endSeries() {
 		roundAndSeriesService.setSeriesStarted(false);
-		voteService.endSeries();
-		//TODO: CALCULAREA NOTELOR PER CONCURENT si inserarea rez in grade din tabela contestant
-		
+		//voteService.endSeries();
+			
+		Contest contest = contestRepository.findAll().get(0);
+		contest.setCurrentSerie(contest.getCurrentSerie() + 1);
+		contest.setCurrentRound(0);
+		contestRepository.save(contest);		
+	}
+	
+	@CrossOrigin(origins = "http://localhost:3000")
+	@GetMapping("/currentSeries")
+	int getCurrentSeries() {
+		return contestRepository.findAll().get(0).getCurrentSerie();
 	}
 	
 }
