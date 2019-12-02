@@ -27,11 +27,7 @@ public class CategoryController {
 	Collection<Category> getCategories(){
 		return categoryRepository.findAll();
 	}
-	
-//	long getNumberCategories(){
-//		return categoryRepository.count();
-//	}
-	
+		
 	@RequestMapping("/category")
 	public Collection<Category> addCategory(@Valid @RequestBody CategoryWrapper categoryWrapper ){
 		for(int i = 0; i < categoryWrapper.getNames().size(); i++) {

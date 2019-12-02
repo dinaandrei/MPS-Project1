@@ -48,7 +48,7 @@ public class ContestantController {
 			Contestant contestant = new Contestant();
 			contestant.setGrade(0);
 			contestant.setPairName(contestantWrapper.getPairNames().get(i));
-			
+
 			contestantRepository.save(contestant);
 		}
 
