@@ -25,8 +25,10 @@ const Login = () => {
         const body = {
             username: user,
             password: password,
+            createJuryAccount: false,
         };
         const method = organiserPressed? routes.getAuthStatusAdmin : routes.getAuthStatusJury;
+        if(!organiserPressed) body.createJuryAccount = true;
         postData(method, body)
             .then((res) => {
                 const { createJuryAccount, status } = res;
