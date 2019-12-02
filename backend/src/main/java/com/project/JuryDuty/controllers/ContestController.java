@@ -114,12 +114,12 @@ public class ContestController {
 	@PostMapping("/disqualify")
 	public void disqualify(@Valid @RequestBody Contestant contestant) {
 //		System.out.println(pairName);
-//		Contestant contestantToBeDisqualified = contestantRepository.findByPairName(pairName);
+		Contestant contestantToBeDisqualified = contestantRepository.findByPairName(contestant.getPairName());
 		
-		for (Result result : resultRepository.findAllByContestant(contestant)) {
+		for (Result result : resultRepository.findAllByContestant(contestantToBeDisqualified)) {
 			resultRepository.delete(result);
 		}
-		contestantRepository.delete(contestant);
+		contestantRepository.delete(contestantToBeDisqualified);
 	}
 	
 
