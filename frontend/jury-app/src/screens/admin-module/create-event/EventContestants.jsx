@@ -7,6 +7,13 @@ const EventContestants = () => {
     const api = useContext(CreateEventApi);
     const {players, playersArray, nrPlayers, handlePlayers, sendPlayersData} = api;
 
+    const sendData = () => {
+        if(!players) return;
+        if(nrPlayers - playersArray.length !== 0) return;
+        
+        sendPlayersData();
+    }
+
     return(
         <>
         <div className="row player--wrapper">
@@ -27,7 +34,7 @@ const EventContestants = () => {
             </div>
             <div>
             <Button
-                onClick={sendPlayersData}
+                onClick={sendData}
                 variant="contained"
                 color={"primary"}
             >

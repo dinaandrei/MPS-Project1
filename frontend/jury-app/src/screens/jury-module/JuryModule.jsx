@@ -1,51 +1,84 @@
-import React, { useState } from 'react';
-
-import Navigation from '../../components/Navigation';
-import DefaultMessage from './DefaultMessage';
-
-const NAVIGATION_ITEMS = {
-    CURRENT_ROUND: 'Current_Round',
-    DELETE_ROUND: 'Delete Rounds',
-    DELETE_TEAM: 'Disqualify Team',
-    CHANGE_DEFAULT_VALUES: 'Modify jury criterias',
-    SPECIAL_ROUNDS: 'Special Rounds',
-    DEFAULT: 'Default',
-}
-
-const NAVIGATION_ITEMS_LIST = Object.values(NAVIGATION_ITEMS);
-NAVIGATION_ITEMS_LIST.pop();
+import React, { useState, useEffect } from 'react';
+import VoteTeamCriterias from './VoteTeamCriterias';
+import { useLocation, useHistory } from 'react-router-dom';
+import { routes } from '../../utils/backendRoutes';
+import { getData } from '../../utils/fetches';
+import Button from '@material-ui/core/Button';
+import GroupIcon from '../../group.svg'
+import Logout from '../../components/Logout';
 
 const MainJuryPage = () => {
-    const list = NAVIGATION_ITEMS_LIST;
-    const [selected, setSelected] = useState('Default')
-
-    const handleSelect = (element) => setSelected(element);
-
-    const renderContent = () => {
-        switch (selected) {
-            case NAVIGATION_ITEMS.CURRENT_ROUND:
-                return <div>asdasdas</div>
-            case NAVIGATION_ITEMS.DELETE_ROUND:
-                return <div> delete round</div>
-            case NAVIGATION_ITEMS.DELETE_TEAM:
-                return <div> delete team</div>
-            case NAVIGATION_ITEMS.CHANGE_DEFAULT_VALUES:
-                return <div> change default values</div>
-            case NAVIGATION_ITEMS.SPECIAL_ROUNDS:
-                return <div> special rounds</div>
-            case NAVIGATION_ITEMS.DEFAULT:
-                return <DefaultMessage />
-            default:
-                return <div>ERROR</div>;
-        }
+    const history = useHistory();
+    const location = useLocation();
+    
+    const [teams, setTeams] = useState([]);
+    const [criterias, setCriterias] = useState([]);
+    const [selected, setSelected] = useState("");
+    
+    const goTo = (route) => {
+        history.push(route);
     }
 
+    useEffect(() => {
+        const isAdmin = localStorage.getItem("isAdmin") === "true";
+        const isJury = localStorage.getItem("isJury") === "true";
+
+        if (!isJury && location.pathname === '/jury') {
+            goTo("/");
+        } else if (isAdmin && location.pathname !== '/admin') {
+            goTo("/admin");
+        }
+        refetchData();
+    }, [])
+
+    const refetchData = () => {
+        getData(routes.getContestants).then(res => setTeams(res));
+        getData(routes.getCriterias).then(res => setCriterias(res.map(x => x.name)));
+    }
+
+    const sendData = (grades) => {
+        console.log({ grades, selected })
+        cancel();
+    }
+
+    const cancel = () => {
+        setSelected("")
+    }
+
+    const renderTeams = () => !selected ?
+        <div className="teams--wrapeer">{
+            teams.map(team =>
+                <div key={`${team.pairName}--jury-card`} className="team--jury" onClick={() => setSelected(team)}>
+                    {team.pairName}
+                    <img style={{ width: '80px' }} src={GroupIcon} />
+                </div>
+            )
+        }</div> :
+        <VoteTeamCriterias
+            criterias={criterias}
+            submit={sendData}
+            cancel={cancel}
+            name={selected.pairName}
+        />
+
+
     return (
-        <div>
-            <Navigation list={list} selected={selected} handleSelect={handleSelect} />
-            <div className="content">
-                {renderContent()}
-            </div>
+        <div className="content jury-content">
+            {!selected &&
+                <>
+                    <div className="title">Choose your votes Wisely!</div>
+                    <div className="button--refresh">
+                        <Button
+                            onClick={refetchData}
+                            variant="contained"
+                            color={"primary"}
+                        >
+                            {'Refresh Round!'}
+                        </Button>
+                    </div>
+                </>}
+            {renderTeams()}
+            <Logout/>
         </div>
     );
 }

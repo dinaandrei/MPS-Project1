@@ -1,26 +1,82 @@
 import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import { routes } from '../../utils/backendRoutes';
+import { postData } from '../../utils/fetches';
+import { useHistory } from 'react-router-dom';
+import CreateAccount from './CreateAccount';
 
 const Login = () => {
+    const history = useHistory();
+
     const [organiserPressed, setOrganiser] = useState(false);
     const [juryPressed, setJury] = useState(false);
     const [user, setUser] = useState();
     const [password, setPassword] = useState();
+    const [createAccount, setCreateAccount] = useState(false);
+    const [error, setError] = useState(false);
+    const [fieldError, setFieldError] = useState(false);
 
     const sendData = () => {
-        const body = {
-            userName: user,
-            password: password,
-            isAdmin: organiserPressed
+        if (!user || !password) {
+            setFieldError(true);
+            return;
         }
+        const body = {
+            username: user,
+            password: password,
+            createJuryAccount: false,
+        };
+        const method = organiserPressed ? routes.getAuthStatusAdmin : routes.getAuthStatusJury;
+        if (!organiserPressed) body.createJuryAccount = true;
+        postData(method, body)
+            .then((res) => {
+                const { createJuryAccount } = res;
+                const status = res.response ? res.response.statusCodeValue : 100;
+                console.log(res);
+                console.log(createJuryAccount, status);
+                if (status / 100 === 2) {
+                    if (createJuryAccount) {
+                        setCreateAccount(true);
+                        return;
+                    }
+                    if (organiserPressed) {
+                        localStorage.setItem('isAdmin', true);
+                        history.push('/admin')
+                        return;
+                    } else {
+                        localStorage.setItem('isJury', true);
+                        history.push('/jury')
+                        return;
+                    }
+                } else {
+                    setError(true);
+                }
+            })
+        setFieldError(false);
+    }
+
+    const submitCredentials = body => {
+        console.log("bruh")
+        postData(routes.postCredentials, body)
+            .then((res) => {
+                console.log({res});
+                if (res.status / 100 !== 2) {
+                    setError(true);
+                } else {
+                    setDefault(true)
+                }
+            })
     }
 
     const setDefault = () => {
         setOrganiser(false);
         setJury(false);
+        setCreateAccount(false);
+        setError(false);
         setUser("");
         setPassword("");
+        setFieldError(false);
     }
 
     const renderInputs = () => (organiserPressed || juryPressed) &&
@@ -48,6 +104,7 @@ const Login = () => {
                     value={password}
                 />
             </div>
+            {fieldError && <div style={{ color: "red" }}>You need to complete both fields</div>}
             <div className="buttons">
                 <Button
                     onClick={sendData}
@@ -87,9 +144,29 @@ const Login = () => {
 
     return (
         <div className="login-container">
-            <div className="main-title">{'Welcome to the Log in Page!'}</div>
-            {renderButtons()}
-            {renderInputs()}
+
+            {error ?
+                <div>
+                    <div className="main-title">{'Credentials Incorrect'}</div>
+                    <div className="buttons">
+                        <Button
+                            onClick={setDefault}
+                            variant="contained"
+                            className={"login-button"}
+                        >
+                            {'Try Again'}
+                        </Button>
+                    </div>
+                </div> :
+                createAccount ?
+                    <CreateAccount submitCredentials={submitCredentials} setDefault={setDefault} /> :
+                    <>
+                        <div className="main-title">{'Welcome to the Login Page!'}</div>
+                        {renderButtons()}
+                        {renderInputs()}
+                    </>
+            }
+
         </div>
     );
 }

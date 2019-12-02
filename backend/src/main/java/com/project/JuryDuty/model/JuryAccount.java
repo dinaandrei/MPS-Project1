@@ -6,23 +6,24 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
+@NoArgsConstructor
 @Data
-@Table(name="contestant")
-public class Contestant {
+@Table(name="juryAccount")
+public class JuryAccount {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
-	private double grade;
 	
-	private String pairName;
-		
+
+	private String username;
+	private String password;
+
+	private boolean isAdmin = false;
+	
 }

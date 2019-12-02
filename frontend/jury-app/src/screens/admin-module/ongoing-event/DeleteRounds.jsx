@@ -1,21 +1,28 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
 
-const DeleteRounds = ({ roundsNumber, currentRound }) => {
-    const array = new Array(roundsNumber);
-    const renderButtonsList = () => array.map((elem,index) =>
-        <div className={"element"}>
-            <div className="secondary-title">Round {index}: </div>
-            <Button
-                onClick={elem.func}
-                variant="contained"
-                color={"secondary"}
-                className="button"
-            >
-                {'Delete Round'}
-            </Button>
-        </div>
-    )
+const DeleteRounds = ({ roundsNumber, currentRound, deleteRound }) => {
+
+    const renderButtonsList = () => {
+        let result = [];
+        for (let i = 1; i <= roundsNumber; i++) {
+            result.push(
+                <div className={"element"}>
+                    <div className="second-title more-margin">Round {i}: </div>
+                    <div className={currentRound >= i ? "past-round round-icon" : "future-round round-icon"} />
+                    <Button
+                        onClick={() => deleteRound(i)}
+                        variant="contained"
+                        color={"primary"}
+                        className="button"
+                    >
+                        {'Delete Round'}
+                    </Button>
+                </div>
+            )
+        }
+        return result;
+    }
 
     return (
         <div>

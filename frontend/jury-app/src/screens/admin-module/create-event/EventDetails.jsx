@@ -15,6 +15,11 @@ const EventDetails = () => {
         confirmPassword, setConfirmPassword, errorPassword, setBlur, setFocus, sendDetailsData
     } = api;
 
+    const sendData = () => {
+        if(errorPassword) return;
+        sendDetailsData();
+    }
+
     const renderContestType = () => (
         <div className="row">
             <InputLabel id="select-label">{'Contest Type'}</InputLabel>
@@ -25,8 +30,8 @@ const EventDetails = () => {
                 className={'input--wrapper'}
             >
                 <MenuItem value={"battle"}>{'Battle Event'}</MenuItem>
-                <MenuItem value={"syncron"}>{'All teams on Stage'}</MenuItem>
-                <MenuItem value={"asyncronous"}>{'One at a time'}</MenuItem>
+                <MenuItem value={"allTeams"}>{'All teams on Stage'}</MenuItem>
+                <MenuItem value={"oneByone"}>{'One at a time'}</MenuItem>
             </Select>
         </div>
     )
@@ -111,7 +116,7 @@ const EventDetails = () => {
     const renderSubmitButton = () => (
         <div>
             <Button
-                onClick={sendDetailsData}
+                onClick={sendData}
                 variant="contained"
                 color={"primary"}
             >
@@ -121,8 +126,7 @@ const EventDetails = () => {
     )
 
     return (
-        <>
-            <div className="title"> {'Create your Desired Event'}</div>    
+        <>   
                 {renderContestType()}
                 {renderRounds()}
                 {renderJuryAccount()}

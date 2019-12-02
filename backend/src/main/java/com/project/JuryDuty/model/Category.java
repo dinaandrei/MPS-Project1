@@ -1,6 +1,8 @@
 package com.project.JuryDuty.model;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -15,8 +17,12 @@ import lombok.NonNull;
 public class Category {
 	
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	@NonNull
 	private String name;
+	
+	//ponderea categoriei care poate lua valori intre 0.1-1
+	private double weight;
 }

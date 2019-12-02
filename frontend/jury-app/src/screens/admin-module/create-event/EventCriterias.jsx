@@ -7,6 +7,11 @@ const EventCriterias = () => {
     const api = useContext(CreateEventApi);
     const {criterias, handleCriterias, sendCategoriesData} = api;
 
+    const sendData = () => {
+        if(!criterias) return;
+        sendCategoriesData()
+    }
+
     return(
         <>
         <div className="row player--wrapper">
@@ -14,7 +19,7 @@ const EventCriterias = () => {
                 <div>
                     <TextField
                         className={'input--wrapper'}
-                        label="Team Names"
+                        label="Jury Categories"
                         multiline
                         rows="5"
                         margin="normal"
@@ -26,7 +31,7 @@ const EventCriterias = () => {
             </div>
             <div>
             <Button
-                onClick={sendCategoriesData}
+                onClick={sendData}
                 variant="contained"
                 color={"primary"}
             >

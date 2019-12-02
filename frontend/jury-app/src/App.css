@@ -1,3 +1,6 @@
+body{
+    background-color: #333;
+}
 
 .App {
   text-align: center;
@@ -6,8 +9,15 @@
   /* background-image: url("background.png"); */
 }
 
+.logout {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 100;
+}
+
 .content {
-    width: 75%;
+    width: 70vw;
     height: 80vh;
     overflow-y: scroll;
     background-image: linear-gradient(to right, rgb(99, 2, 99) , rgb(33, 77, 224));
@@ -20,9 +30,31 @@
     box-shadow: 2px -4px 35px 5px rgba(0,0,0,0.75);
 }
 
+.jury-content {
+    margin: auto;
+    width: 70vw;
+    height: 80vh;
+    margin-top: 50px;
+    background-image: linear-gradient(to right, rgb(3, 58, 90) , rgb(224, 109, 33));
+    position: relative;
+}
+
+.MuiDrawer-paperAnchorDockedLeft {
+    background-color: #555 !important;
+    color: white !important;
+}
+
+.more-margin {
+    margin-top: 35px;
+}
+
 .input--wrapper{
     width: 300px;
     color: white;
+}
+
+.score--inputWrapper {
+    width: 40px;
 }
 
 .main-button{
@@ -63,6 +95,17 @@
 }
 
 
+
+
+.start-event--wrapper .button {
+    width: 300px;
+    height: 100px;
+    margin-top: 80px;
+}
+.start-event--wrapper .title {
+    font-size: 30px;
+    margin-top: 50px;
+}
 
 
 
@@ -109,7 +152,7 @@
     justify-content: center;
     flex-wrap: wrap;
 }
-.ongoing-event--wrapper .element{
+.element{
     width: 250px;
     height: 150px;
     padding: 20px;
@@ -118,6 +161,9 @@
     background-color: #ccc;
     margin: 50px 30px;
     position: relative;
+    -webkit-box-shadow: 13px -7px 18px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 13px -7px 18px 0px rgba(0,0,0,0.75);
+    box-shadow: 13px -7px 18px 0px rgba(0,0,0,0.75);
 }
 .ongoing-event--wrapper .button{
     margin-top: 30px;
@@ -127,4 +173,85 @@
     margin-right: auto;
     left: 0;
     right: 0;
+}
+.element-two-buttons .button{
+    width:100px;
+}
+.ongoing-event--wrapper .top-button{
+    margin-top: 30px;
+    position: absolute;
+    bottom:60px;
+}
+.ongoing-event--wrapper .second-title{
+    font-size: 20px;
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+.round-icon {
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    border-radius: 50px;
+    top: -25px;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+}
+.past-round {
+    background-color: rgb(182, 0, 0);
+}
+.future-round {
+    background-color: rgb(1, 110, 1);
+}
+
+
+
+
+
+.teams--wrapeer {
+    display: flex;
+    width: 80%;
+    margin: auto;
+    margin-top: 50px;
+    flex-wrap: wrap;
+}
+.teams--wrapeer .team--jury{
+    cursor: pointer;
+    width: 91px;
+    margin: 30px;
+    padding: 10px;
+}
+.teams--wrapeer .team--jury:hover{
+    -webkit-box-shadow: 13px -7px 18px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 13px -7px 18px 0px rgba(0,0,0,0.75);
+    box-shadow: 13px -7px 18px 0px rgba(0,0,0,0.75);
+    transform: scale(1.2);
+    border-radius: 20px;
+}
+
+.jury-score-criterias{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.criteria {
+    height: 50px;
+    margin: 20px;
+}
+.jury-team-buttons {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    width: 150px;
+}
+.jury-team-buttons .button {
+    width: 150px;
+    margin-top: 30px;
+}
+.button--refresh {
+    position: absolute;
+    top: 30px;
+    right: 30px;
 }
