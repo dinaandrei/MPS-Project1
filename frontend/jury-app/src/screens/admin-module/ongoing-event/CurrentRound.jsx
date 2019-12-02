@@ -1,7 +1,9 @@
 import React, { useEffect } from 'react';
 import Button from '@material-ui/core/Button';
 
-const CurrentRound = ({ eventStarted, currentRound, roundsNumber, startEvent, startNextRound, endEvent, getRounds}) => {
+const CurrentRound = ({ eventStarted, currentRound, currentSet, 
+    roundsNumber, startEvent, startNextRound, startNextSet,
+    endEvent, getRounds}) => {
 
     useEffect(()=>{
         getRounds();
@@ -34,6 +36,14 @@ const CurrentRound = ({ eventStarted, currentRound, roundsNumber, startEvent, st
                 className="button"
             >
                 {condition? "End Event" : `Start Round ${currentRound + 1}`}
+            </Button>
+            <Button
+                onClick={condition? startNextRound : startNextSet}
+                variant="contained"
+                color={"secondary"}
+                className="button"
+            >
+                {condition? "End Round" : `Start Series ${currentSet + 1}`}
             </Button>
         </div>
     )

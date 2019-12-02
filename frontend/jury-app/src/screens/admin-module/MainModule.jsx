@@ -83,7 +83,7 @@ const MainAdminPage = () => {
 
     const startEvent = () => {
         setStartedEvent(true);
-        
+
     }
 
     const deleteRound = (index) => {
@@ -147,6 +147,14 @@ const MainAdminPage = () => {
         });
     }
 
+    const startNextRound = () => {
+        
+    }
+
+    const startNextSet = () => {
+        
+    }
+
     const renderContent = () => {
         switch (selected) {
             case NAVIGATION_ITEMS.CREATE:
@@ -162,6 +170,9 @@ const MainAdminPage = () => {
                     getRounds={getRounds}
                     eventStarted={eventStarted}
                     currentRound={currentRound}
+                    currentSet={currentSet}
+                    startNextSet={startNextSet}
+                    startNextRound={startNextRound}
                     startEvent={startEvent}
                 />
             case NAVIGATION_ITEMS.DELETE_ROUND:
