@@ -15,12 +15,19 @@ export const routes = {
     getCriterias: mainUrl.concat('/admin/categories'),
     getRounds: mainUrl.concat('/api/contestant'),
     getSets: mainUrl.concat('/api/contestant'),
+    getCurrentRound: mainUrl.concat('/admin/currentRound'),
+    getCurrentSeries: mainUrl.concat('/admin/currentSeries'),
 
     // -------------- post -------------------
 
     postCategories: mainUrl.concat('/admin/category'),
     postContest: mainUrl.concat('/admin/addContest'),
     postContestants: mainUrl.concat('/api/contestant'),
+    voteTeam: mainUrl.concat('/api/vote'),
+    postEndRound: mainUrl.concat('/admin/endRound'),
+    postStartRound: mainUrl.concat('/admin/startRound'),
+    postStartSeries: mainUrl.concat('/admin/startSeries'),
+    postEndSeries: mainUrl.concat('/admin/endSeries'),
 
     // ------------- delete ----------------
 

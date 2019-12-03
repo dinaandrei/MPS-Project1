@@ -95,6 +95,13 @@ body{
 }
 
 
+.buttons-rounds {
+    display: flex;
+    flex-direction: column;
+}
+.buttons-rounds .button {
+    margin: auto;
+}
 
 
 .start-event--wrapper .button {
@@ -106,7 +113,11 @@ body{
     font-size: 30px;
     margin-top: 50px;
 }
-
+.button-green {
+    background: rgb(15, 134, 15) !important;
+    width: 200px !important;
+    height: 80px !important;
+}
 
 
 .login-container {

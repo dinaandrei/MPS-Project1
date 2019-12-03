@@ -22,7 +22,7 @@ const VoteTeamCriterias = ({ name, criterias, submit, cancel }) => {
     )
 
     const submitTeam = () => {
-        const result = scores.map((x,i) => ({[criterias[i]]: x/10}))
+        const result = scores.map((x,i) => ({mark: x/10, category:criterias[i]}))
         submit(result);
     }
 
