@@ -190,6 +190,7 @@ const MainAdminPage = () => {
                     currentSet={currentSet}
                     startNextSet={startNextSet}
                     startNextRound={startNextRound}
+                    roundsNumber={roundsNumber}
                     seriesNumber={setsNumber}
                     startEvent={startEvent}
                     endRound={endRound}

@@ -5,16 +5,17 @@ import { routes } from '../../utils/backendRoutes';
 import { getData, postData } from '../../utils/fetches';
 import Button from '@material-ui/core/Button';
 import GroupIcon from '../../group.svg'
+import WinnerIcon from '../../winner.png';
 import Logout from '../../components/Logout';
 
 const MainJuryPage = () => {
     const history = useHistory();
     const location = useLocation();
-    
+
     const [teams, setTeams] = useState([]);
     const [criterias, setCriterias] = useState([]);
     const [selected, setSelected] = useState("");
-    
+
     const goTo = (route) => {
         history.push(route);
     }
@@ -38,13 +39,13 @@ const MainJuryPage = () => {
 
     const sendData = (grades) => {
         console.log({ grades, selected })
-        grades.forEach(({mark, category}) => {
+        grades.forEach(({ mark, category }) => {
             const body = {
                 mark: mark,
                 category: category,
                 contestantName: selected.pairName,
             }
-            console.log({body})
+            console.log({ body })
             postData(routes.voteTeam, body);
         })
         cancel();
@@ -53,6 +54,13 @@ const MainJuryPage = () => {
     const cancel = () => {
         setSelected("")
     }
+
+    const renderWinner = () =>
+        <div>
+            <div className="title">We have a winner:</div>
+            <img style={{ width: '300px' }} src={WinnerIcon} />
+            <div className="title" style={{textAlign: 'center'}}>{teams[0].pairName}</div>
+        </div>
 
     const renderTeams = () => !selected ?
         <div className="teams--wrapeer">{
@@ -86,8 +94,8 @@ const MainJuryPage = () => {
                         </Button>
                     </div>
                 </>}
-            {renderTeams()}
-            <Logout/>
+            {teams.length === 1 ? renderWinner() : renderTeams()}
+            <Logout />
         </div>
     );
 }
